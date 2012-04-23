@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' , jinsoo : 'Jinsoo' })
+  res.render('index', { title: 'Welcome To WebIRC!' });
 };
