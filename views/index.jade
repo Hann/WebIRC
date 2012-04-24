@@ -4,13 +4,13 @@ html
     header
       h1 WebIRC
     div#container
-      form(name='form', method='post', action='/join')
-        label text1
-          input(type="text", style="width:100%")
-        label text2
-          input(type="text", style="width:100%")
+      form(id='form', method='post', action='/join')
+        label Nickname
+          input(type="text", name='nickname', style="width:100%")
+        label channel
+          input(type="text", name='channel', style="width:100%")
         label text3
-          input(type="text", style="width:100%")
+          input(type="text", name='text3',style="width:100%")
         button.btn.btn-info.
            <i class="icon-share-alt"></i>
            Submit
