@@ -4,13 +4,15 @@ html
     header
       h1 WebIRC
     div#container
-      label text1
-        input(type="text", style="width:100%")
-      label text2
-        input(type="text", style="width:100%")
-      label text3
-        input(type="text", style="width:100%")
-    footer
-      button.btn.btn-info.
-         <i class="icon-share-alt"></i>
-         Submit
+      form(name='form', method='post', action='/join')
+        label text1
+          input(type="text", style="width:100%")
+        label text2
+          input(type="text", style="width:100%")
+        label text3
+          input(type="text", style="width:100%")
+        button.btn.btn-info.
+           <i class="icon-share-alt"></i>
+           Submit
+    footer 
+      h5 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D			
