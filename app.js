@@ -31,6 +31,6 @@ app.configure('production', function(){
 
 app.get('/', routes.index); //index 
 app.post('/join', routes.join); // join 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
-app.listen(80, function(){
+app.listen(8080, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
