@@ -13,5 +13,5 @@ exports.index = function(req, res){
 exports.join= function(req, res){
   res.render('join', { title: 'connect IRC',
 		     nickname : req.body.nickname,
-		     channel : req.body.channel });
+		     channel : req.body.channelName });
 };
