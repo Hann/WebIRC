@@ -1,6 +1,12 @@
 // 어떻게 넣을수 있을까?
 head
   link(rel='stylesheet', href='/stylesheets/index.css')
+  script.
+    jQuery.noConflict();
+    (function ($)
+    {
+      // safe area
+    })(jQuery);
 section#wrap.container
   header
     h1 WebIRC

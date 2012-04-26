@@ -10,7 +10,7 @@ var express = require('express')
 var app = module.exports = express.createServer()
   , io = require('socket.io').listen(app); // import socket.io
 
-var isOnVPS = false;
+var isOnVPS = true;
 
 // Configuration
 
@@ -34,7 +34,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index); //index 
-app.post('/chat', routes.chat); // join 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
+app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
 
 io.sockets.on('connection', function (socket) {
 		    socket.emit('news', { hello: 'world' });
