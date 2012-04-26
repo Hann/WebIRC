@@ -1,18 +1,19 @@
-!!! 5
-html	
-  section#wrap.container
-    header
-      h1 WebIRC
-    div#container
-      form(id='form', method='post', action='/chat')
-        label Nickname (required)
-          input(type="text", name='nickname', placeholder="Type your nickname", style="width:100%")
-        label Channel Name (required)
-          input(type="text", name='channelName', placeholder="Type the channel that you want to connect", style="width:100%")
-        label Channel Password (optional)
-          input(type="password", name='channelPassword', placeholder="Type the channel password if it needs", style="width:100%")
-        button.btn.btn-info.
-           <i class="icon-share-alt"></i>
-           Submit
-    footer 
-      h5 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D			
+// 어떻게 넣을수 있을까?
+head
+  link(rel='stylesheet', href='/stylesheets/index.css')
+section#wrap.container
+  header
+    h1 WebIRC
+  div#container
+    form(id='information', method='post', action='/chat')
+      label Nickname (required)
+        input(type="text", name='nickname', placeholder="사용할 닉네임을 입력해주세요", style="width:100%")
+      label Channel Name (required)
+        input(type="text", name='channelName', placeholder="접속할 채널의 이름을 입력해주세요", style="width:100%")
+      label Channel Password (optional)
+        input(type="password", name='channelPassword', placeholder="비공개 채널이라면 비밀번호를 입력해주세요", style="width:100%")
+      button.btn.btn-info
+        i.icon-share-alt
+        |Submit
+  footer 
+    h1 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D			
