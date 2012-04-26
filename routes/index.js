@@ -9,9 +9,9 @@ exports.index = function(req, res){
   res.render('index', { title: 'Welcome To WebIRC!' });
 };
 
-// join function
-exports.join= function(req, res){
-  res.render('join', { title: 'connect IRC',
+// chat function
+exports.chat= function(req, res){
+  res.render('chat', { title: 'connect IRC',
 		     nickname : req.body.nickname,
 		     channel : req.body.channelName });
 };
