@@ -34,7 +34,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index); //index 
-app.post('/join', routes.join); // join 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
+app.post('/chat', routes.chat); // join 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
 
 io.sockets.on('connection', function (socket) {
 		    socket.emit('news', { hello: 'world' });
