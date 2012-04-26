@@ -10,6 +10,8 @@ var express = require('express')
 var app = module.exports = express.createServer()
   , io = require('socket.io').listen(app); // import socket.io
 
+var isOnVPS = false;
+
 // Configuration
 
 app.configure(function(){
@@ -41,7 +43,7 @@ io.sockets.on('connection', function (socket) {
 				    });
 		  });
 
-app.listen(80, function(){
+app.listen((isOnVPS) ? 8080: 80, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
 
