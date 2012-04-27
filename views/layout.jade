@@ -2,6 +2,12 @@
 html
   head
     title= title
+    script.
+      jQuery.noConflict();
+      (function ($)
+      {
+        // safe area
+      })(jQuery);
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/#{css}.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')

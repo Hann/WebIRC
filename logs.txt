@@ -1,0 +1,11 @@
+packet: :merlin83!~merlin83@unaffiliated/merlin83 QUIT :Ping timeout: 252 seconds
+ -> Error: Invalid prefixpacket: :warz!~warz@pdpc/supporter/student/warz JOIN #Node.js
+ -> Error: Invalid prefixpacket: :warz!~warz@pdpc/supporter/student/warz QUIT :Client Quit
+ -> Error: Invalid prefixpacket: :ablomen!~ablomen@unaffiliated/ablomen QUIT :Quit: Leaving
+ -> Error: Invalid prefixpacket: PING :wolfe.freenode.net
+ -> TypeError: Cannot read property 'nickname' of undefinedpacket: :kborchers!~kborchers@unaffiliated/kborchers QUIT :Excess Flood
+ -> Error: Invalid prefixpacket: :kborchers!~kborchers@unaffiliated/kborchers JOIN #Node.js
+ -> Error: Invalid prefixpacket: ERROR :Closing Link: 1.234.53.205 (Ping timeout: 252 seconds)
+ -> TypeError: Cannot read property 'nickname' of undefinedpacket: :jaha!~Adium@2602:306:c549:17b0:2d58:fae:769c:b83b JOIN #Node.js
+ -> Error: Invalid prefixpacket: :MrBig!~silent@2001:690:2008:e1f3:f1d7:1c24:b1b0:eb46 JOIN #Node.js
+ -> Error: Invalid prefix
