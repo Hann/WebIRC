@@ -1,11 +1,21 @@
 !!! 5
 html
   script(src="/socket.io/socket.io.js")
+  script(src="javascripts/CommandReader.js")
   h1 hello world!
   h2 Nickname = #{nickname}
   h3 Channel = #{channel}
+  input(type="text", id='chattingMessage', onkeypress='enterKeyEvent(event)')
   script.
     var socket = io.connect('http://hann.iptime.org');
+    function enterKeyEvent(event){
+        if (event.keyCode == 13){
+        console.log('hi');
+        $('body').append('hi');
+      }
+
+    }
+
     socket.on('news', function(data){
     console.log(data);
     socket.emit('my other event', {my:'data'});
