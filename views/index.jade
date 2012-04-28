@@ -5,61 +5,33 @@ block append head
   script(src='/javascripts/index.js')
   
 block contents
-  section.container
+  section#container.container
     header.row
-      h1.span10.offset1 WebIRC
+        h1.offset3.span6 WebIRC
     div.row
-      div.span12
+      div.offset3.span6
         form#connect(method='post', action='/chat')
-          label Nickname (required)
-            input.span12(type='text')
-          label Channel Name (require)
-            input.span12(type='text')
-          label Channel Password (optional)
-            input.span12(type='text')
+          div.control-group
+            label.control-label(for='nickname') Nickname (required)
+            div.controls
+              input#nickname.offset3.span6(type='text', name='nickname', placeholder='사용할 닉네임을 입력해주세요')
+              p#help-of-nickname.help-block
+          
+          div.control-group
+            label.control-label(for='channel') Channel (required)
+            div.controls
+              input#channel.offset3.span6(type='text', name='channel', placeholder='입장할 채널을 입력해주세요')
+              p#help-of-channel.help-block
+              
+          div.control-group
+            label.control-label(for='password') Password (optional)
+            div.controls
+              input#password.offset3.span6(type='text', placeholder='채널 비밀번호를 입력해주세요')
+              p#help-of-password.help-block
+        
           label.assistive-element(for='submit') Submit
           button#submit.btn-large.btn-info(type='submit')
             i.icon-share-alt
             |  Submit
     footer.row
-      h1.span12 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D
-//-
-  section.container-fluid
-    header.row-fluid
-      h1 WebIRC
-    div.row-fluid
-      div.span12
-        form(id='information', method='post', action='/chat')
-          label Nickname (required)
-            input(type='text', name='information[nickname]', placeholder='닉네임을 입력해주세요')
-          label Channel Name (required)
-            input(type='text', name='information[channel]', placeholder='채널을 입력해주세요')
-          label Channel Password (optional)
-            input(type='password', name='information[password]', placeholder='비공개 채널이라면, 비밀번호를 입력해주세요')
-          label.assistive-element(for='submit') Submit
-          div#button-wrapper
-            button#submit(type='submit').btn.btn-info
-              i.icon-share-alt
-              \Submit
-    footer.row-fluid
-      h1 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D
-      
-//-
-  section.container
-    header
-      h1 WebIRC
-    
-    div#container
-      form(id='user', method='post', action='/chat')
-        label Nickname (required)
-          input(type='text', name='user[nickname]', placeholder='닉네임을 입력해주세요')
-        label Channel Name (required)
-          input(type='text', name='user[channel]', placeholder='채널을 입력해주세요')
-        label Channel Password (optional)
-          input(type='password', name='user[password]', placeholder='비공개 채널이라면, 비밀번호를 입력해주세요')
-        button.btn.btn-info
-          i.icon-share-alt
-          \Submit
-    
-    footer
-      h1 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D
+      h1.offset3.span6 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D

@@ -22,6 +22,16 @@ header h1
 	line-height: 1.4em;
 }
 
+#connect .control-group
+{
+	margin-bottom: 0px;
+}
+
+#connect .control-group .controls .help-block
+{
+	display: none;
+}
+
 #connect input
 {
 	height: 1.05em;
@@ -35,60 +45,6 @@ header h1
 footer h1
 {
 	font-size: 0.5em;
-	font-weight: normal;
-}
-
-/*
-header h1
-{
-	font-size: 2em;
-	line-height: 1.5em;
-}
-
-section.container-fluid
-{
-	width: 70%;
-	margin: 0px auto;
-}
-
-header
-{
-	text-align: center;
-}
-
-#information
-{
-	margin: 0px;
-}
-
-#information label, #information input
-{
-	font-size: 1em;
-	line-height: 1.25em;
-}
-
-#information input
-{
-	width: 100%;
-	height: 1.25em;
-	margin-top: 2px;
-}
-
-#button-wrapper
-{
-	width: 100%;
-	position: relative;
-}
-
-#information button
-{
-	position: absolute;
-	right: 0px;
-}
-
-footer h1
-{
-	font-weight: normal;
-	font-size: 0.5em;
 	line-height: 0.75em;
-}*/
+	font-weight: normal;
+}
