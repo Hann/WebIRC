@@ -1,21 +1,65 @@
-!!! 5
-html
-  section#wrap.container
+extends layout
+
+block append head
+  link(rel='stylesheet', href='/stylesheets/index.css')
+  script(src='/javascripts/index.js')
+  
+block contents
+  section.container
+    header.row
+      h1.span10.offset1 WebIRC
+    div.row
+      div.span12
+        form#connect(method='post', action='/chat')
+          label Nickname (required)
+            input.span12(type='text')
+          label Channel Name (require)
+            input.span12(type='text')
+          label Channel Password (optional)
+            input.span12(type='text')
+          label.assistive-element(for='submit') Submit
+          button#submit.btn-large.btn-info(type='submit')
+            i.icon-share-alt
+            |  Submit
+    footer.row
+      h1.span12 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D
+//-
+  section.container-fluid
+    header.row-fluid
+      h1 WebIRC
+    div.row-fluid
+      div.span12
+        form(id='information', method='post', action='/chat')
+          label Nickname (required)
+            input(type='text', name='information[nickname]', placeholder='닉네임을 입력해주세요')
+          label Channel Name (required)
+            input(type='text', name='information[channel]', placeholder='채널을 입력해주세요')
+          label Channel Password (optional)
+            input(type='password', name='information[password]', placeholder='비공개 채널이라면, 비밀번호를 입력해주세요')
+          label.assistive-element(for='submit') Submit
+          div#button-wrapper
+            button#submit(type='submit').btn.btn-info
+              i.icon-share-alt
+              \Submit
+    footer.row-fluid
+      h1 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D
+      
+//-
+  section.container
     header
       h1 WebIRC
+    
     div#container
-      form(id='form', method='post', action='/chat')
+      form(id='user', method='post', action='/chat')
         label Nickname (required)
-          input(type="text", name='nickname', placeholder="Type your nickname", style="width:100%")
+          input(type='text', name='user[nickname]', placeholder='닉네임을 입력해주세요')
         label Channel Name (required)
-          input(type="text", name='channelName', placeholder="Type the channel that you want to connect", style="width:100%")
+          input(type='text', name='user[channel]', placeholder='채널을 입력해주세요')
         label Channel Password (optional)
-          input(type="password", name='channelPassword', placeholder="Type the channel password if it needs", style="width:100%")
-        button.btn.btn-info.
-           <i class="icon-share-alt"></i>
-           Submit
-        select(name="drop1", id="Select1", size="4")
-           option(value='1') item1
-           option(value='2') item2
-    footer 
-      h5 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D			
+          input(type='password', name='user[password]', placeholder='비공개 채널이라면, 비밀번호를 입력해주세요')
+        button.btn.btn-info
+          i.icon-share-alt
+          \Submit
+    
+    footer
+      h1 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D

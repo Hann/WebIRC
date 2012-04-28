@@ -10,13 +10,14 @@ var express = require('express')
 var app = module.exports = express.createServer()
   , io = require('socket.io').listen(app); // import socket.io
 
-var isOnVPS = false;
+var isOnVPS = true;
 
 // Configuration
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
+  app.set('view options', { layout: false });
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
