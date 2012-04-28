@@ -10,7 +10,7 @@ var express = require('express')
 var app = module.exports = express.createServer()
   , io = require('socket.io').listen(app); // import socket.io
 
-var isOnVPS = true;
+var isOnVPS = false;
 
 // Configuration
 

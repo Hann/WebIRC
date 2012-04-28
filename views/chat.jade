@@ -15,13 +15,17 @@ block contents
     var socket = io.connect('http://hann.iptime.org');
     function enterKeyEvent(event){
         if (event.keyCode == 13){
-        console.log('hi');
-        $('body').append('hi');
-      }
-
+          $('body').append("<p>" + $('#chattingMessage').val() + "</p>");
+          var cr = new CommandReader();
+          var parsedData = cr.parseText($('#chattingMessage').val());
+          console.log(parsedData);
+          $('#chattingMessage').val('');
+        }
     }
-
     socket.on('news', function(data){
-    console.log(data);
-    socket.emit('my other event', {my:'data'});
+      $('body').append(data);
+      socket.emit('my other event', {my: 'text'}); 
+      console.log(data);
     });
+
+
