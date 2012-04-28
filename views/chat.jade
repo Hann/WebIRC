@@ -1,7 +1,13 @@
-!!! 5
-html
+<<<<<<< HEAD
+extends layout
+
+block append head
+  link(rel='stylesheet', href='/stylesheets/chat.css')
+  script(src='/javascripts/chat.js')
   script(src="/socket.io/socket.io.js")
-  script(src="javascripts/CommandReader.js")
+  script(src="javascripts/CommandReader.js") 
+
+block contents
   h1 hello world!
   h2 Nickname = #{nickname}
   h3 Channel = #{channel}

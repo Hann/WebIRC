@@ -1,4 +1,94 @@
-footer h1
+body
+{
+	padding-top: 40px;
+	font-size: 24px;
+	line-height: 1.25em;
+}
+
+header
+{
+	text-align: center;
+}
+
+header h1
+{
+	font-size: 2em;
+	line-height: 2em;
+}
+
+#connect label, #connect input
 {
 	font-size: 1em;
+	line-height: 1.4em;
 }
+
+#connect input
+{
+	height: 1.05em;
+}
+
+#connect button
+{
+	width: 100%;
+}
+
+footer h1
+{
+	font-size: 0.5em;
+	font-weight: normal;
+}
+
+/*
+header h1
+{
+	font-size: 2em;
+	line-height: 1.5em;
+}
+
+section.container-fluid
+{
+	width: 70%;
+	margin: 0px auto;
+}
+
+header
+{
+	text-align: center;
+}
+
+#information
+{
+	margin: 0px;
+}
+
+#information label, #information input
+{
+	font-size: 1em;
+	line-height: 1.25em;
+}
+
+#information input
+{
+	width: 100%;
+	height: 1.25em;
+	margin-top: 2px;
+}
+
+#button-wrapper
+{
+	width: 100%;
+	position: relative;
+}
+
+#information button
+{
+	position: absolute;
+	right: 0px;
+}
+
+footer h1
+{
+	font-weight: normal;
+	font-size: 0.5em;
+	line-height: 0.75em;
+}*/
