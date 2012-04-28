@@ -49,7 +49,7 @@ CommandReader.prototype.parseText = function(rawText){
 	    return { command : this.command , parameters : this.parameters};
 	}
 	else{
-
+	    throw new Error('Invalid command');
 	}
 
     }
