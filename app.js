@@ -37,7 +37,7 @@ app.configure('production', function(){
 
 app.get('/', routes.index); //index 
 app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
-app.post('/chatUI', routes.chatUI); // for ui scaffolding
+app.get('/chatUI', routes.chatUI); // for ui scaffolding
 
 io.sockets.on('connection', function (socket) {
 		    socket.emit('news', { hello: 'world' });
