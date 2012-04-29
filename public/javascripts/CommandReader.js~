@@ -1,0 +1,54 @@
+/*
+*/
+
+
+
+//////////////////////////////
+//Constructor method
+//////////////////////////////
+
+//fail.... return 이 있으면 안되는데... 수정해야하는데 어떻게하냐~~~~~~~~~~~
+var CommandReader = function(){
+    this.command = '';
+    this.parameters = '';
+    this.message = '';
+    this.commandList = ['msg', 'join', 'nick','notice'];
+};
+
+
+//////////////////////////////
+// RegExr patterns
+//////////////////////////////
+
+CommandReader.patterns = {
+    
+  split : /^\/([a-zA-Z]+)(?:[ ,]+)(.*)/g,
+  command : /^\/[a-zA-Z]+/g //temp
+    
+};
+
+//////////////////////////////
+// fucntions
+//////////////////////////////
+
+CommandReader.prototype.parseText = function(rawText){    
+    var splitData = rawText.split(CommandReader.patterns.split);
+    if (splitData == rawText){ // 안잘렸으면 스플릿데이터가 같다.
+	console.log('test');
+	return {command : 'PRIVMSG' , parameters : rawText};
+	
+    }
+    else {
+	this.command = splitData[1];
+	this.parameters = splitData[2];
+	
+	if(this.command in this.commandList){ // 유효한 커멘드 인지 검사.
+	    return { command : this.command , parameters : this.parameters};
+	}
+	else{
+	    throw new Error('Invalid command');
+	}
+
+    }
+    throw new Error('Unexpected Error');
+};
