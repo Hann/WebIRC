@@ -34,7 +34,8 @@ header h1
 
 #connect input
 {
-	height: 1.05em;
+	height: 1.2em;
+	font-size: 0.9em;
 }
 
 #connect button
