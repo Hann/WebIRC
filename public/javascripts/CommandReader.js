@@ -15,7 +15,7 @@ var CommandReader = function(){
     this.command = '';
     this.parameters = '';
     this.message = '';
-    this.commandList = ['msg', 'join', 'nick','notice'];
+    this.commandList = { MSG : 1, JOIN : 1, NICK : 1, NOTICE : 1 };
 };
 
 
@@ -25,7 +25,7 @@ var CommandReader = function(){
 
 CommandReader.patterns = {
     
-  split : /^\/([a-zA-Z]+)(?:[ ,]+)(.*)/g,
+  split : /^\/([a-zA-Z]+)(?:[ ,]*)(.*)/g,
   command : /^\/[a-zA-Z]+/g //temp
     
 };
@@ -38,25 +38,24 @@ CommandReader.patterns = {
 /*
  * To do
  * 소문자로 바꿔주기.
- * notice가 인식이 안됨.
+ * 
  */
 
 CommandReader.prototype.parseText = function(rawText){    
     var splitData = rawText.split(CommandReader.patterns.split);
     if (splitData == rawText){ // 안잘렸으면 스플릿데이터가 같다.
-	console.log('test');
-	return {command : 'PRIVMSG' , parameters : rawText};
-	
+	console.log(splitData);
+	return {command : 'PRIVMSG' , parameters : rawText, color : 'black'};
     }
     else {
-	this.command = splitData[1];
+	this.command = splitData[1].toUpperCase();
 	this.parameters = splitData[2];
 	
 	if(this.command in this.commandList){ // 유효한 커멘드 인지 검사.
 	    return { command : this.command , parameters : this.parameters};
 	}
 	else{
-	    throw new Error('Invalid command');
+	    return { command : "invalid" , parameters : 'invalid commnad', color :'gray'};
 	}
 
     }
