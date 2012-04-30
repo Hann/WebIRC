@@ -16,7 +16,7 @@ exports.chat= function(req, res) {
   res.render('chat', {
     title: 'connect IRC',
     nickname : req.body.nickname,
-    channel : req.body.channelName
+    channel : req.body.channel
   });
 };
 

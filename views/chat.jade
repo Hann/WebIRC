@@ -29,7 +29,7 @@ block contents
     }
     socket.on('news', function(data){
       $('body').append(data);
-      socket.emit('my other event', {my: 'text'}); 
+      socket.emit('connect', {nickname: #{nickname}, channel : #{channel} ); 
       console.log(data);
     });
 
