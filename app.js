@@ -38,10 +38,13 @@ app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟
 app.get('/chatUI', routes.chatUI); // for ui scaffolding
 
 io.sockets.on('connection', function (socket) {
-		    socket.emit('news', { hello: 'world' });
-		    socket.on('my other event', function (data) {
+		    socket.emit('hi', { doyou: 'hearme' });
+		    socket.on('connect', function (data) {
 				      console.log(data);
 				    });
+		  socket.on('fromClient', function(data){
+				console.log(data);
+			    });
 		  });
 
 app.listen(1234, function(){
