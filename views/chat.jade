@@ -2,35 +2,34 @@ extends layout
 
 block append head
   link(rel='stylesheet', href='/stylesheets/chat.css')
-  script(src='/javascripts/chat.js')
+  script
+    var nickname = '#{nickname}';
+    var channel = '#{channel}';
   script(src="/socket.io/socket.io.js")
   script(src="javascripts/CommandReader.js") 
+  script(src='/javascripts/chat.js')
 
 block contents
+  div.tabbable
+    ul.nav.nav-tabs
+      li.active
+        a(href="#freenode", data-toggle='tab') freenode
+      li
+        a(href="#channel", data-toggle='tab') channel
+      li
+        a(href="#test", data-toggle='tab') test
+    div.tab-content
+      div.tab-pane.active#freenode
+        p I'm in Section1
+      div.tab-pane#channel
+        p I'm in Section2
+      div.tab-pane#test
+        p I'm in Section3
   h1 hello world!
   h2 Nickname = #{nickname}
   h3 Channel = #{channel}
   input(type="text", id='chattingMessage', onkeypress='enterKeyEvent(event)')
-  script.
-    var socket = io.connect('http://hann.iptime.org');
-    function enterKeyEvent(event){
-        if (event.keyCode == 13){
-          var message = $('#chattingMessage').val();
-          if (message != ''){
-            var cr = new CommandReader();
-            var parsedData = cr.parseText(message);
-            if (!(parsedData.command in cr.commandList)){
-            $('body').append("<p><font color ='" + parsedData.color + "' >" + parsedData.parameters + "</font></p>");
-            }
-            console.log(parsedData);
-            $('#chattingMessage').val('');
-          }
-        }
-    }
-    socket.on('news', function(data){
-      $('body').append(data);
-      socket.emit('connect', {nickname: #{nickname}, channel : #{channel} ); 
-      console.log(data);
-    });
+    
+
 
 
