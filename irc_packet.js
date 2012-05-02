@@ -1,3 +1,10 @@
+// for compatibility
+if(!String.prototype.trim) {  
+  String.prototype.trim = function () {  
+    return this.replace(/^\s+|\s+$/g,'');  
+  };
+}
+
 var patterns = {
   digit: /[0-9]/,
   heximalDigit: /[0-9a-fA-F]/,
@@ -128,8 +135,6 @@ IRCPacket.prototype.build = function () {
     packet += ' ' + ((this.parameters[length - 1].indexOf('\x20') !== -1) ? ':' : '') + this.parameters[length - 1];
   }
 
-  console.log('PAKCET BUILT-> ' + packet);
-
   return packet + '\r\n';
 };
 
@@ -175,10 +180,10 @@ IRCPacket.Prefix.prototype.build = function () {
     if (this.hasOwnProperty('user')) prefix += '!' + this.user;
     if (this.hasOwnProperty('host')) prefix += '@' + this.host;
   }
-
-  console.log('PREFIX BUILT-> ' + packet);
   return prefix;
 };
 
 
-module.exports = IRCPacket;
+if (typeof module !== 'undefined') {
+  module.exports = IRCPacket;
+}
