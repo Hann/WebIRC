@@ -10,6 +10,21 @@ block append head
   script(src='/javascripts/chat.js')
 
 block contents
+  div.tabbable
+    ul.nav.nav-tabs
+      li.active
+        a(href="#freenode", data-toggle='tab') freenode
+      li
+        a(href="#channel", data-toggle='tab') channel
+      li
+        a(href="#test", data-toggle='tab') test
+    div.tab-content
+      div.tab-pane.active#freenode
+        p I'm in Section1
+      div.tab-pane#channel
+        p I'm in Section2
+      div.tab-pane#test
+        p I'm in Section3
   h1 hello world!
   h2 Nickname = #{nickname}
   h3 Channel = #{channel}
