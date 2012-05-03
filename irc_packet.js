@@ -31,7 +31,8 @@ if(!String.prototype.trim) {
 
     shortName: /^(?:<letter>|<digit>)(?:<letter>|<digit>|\-)*(?:<letter>|<digit>)*$/,
     ip4Address: /^<digit>{1,3}\.<digit>{1,3}\.<digit>{1,3}\.<digit>{1,3}$/,
-    ip6Address: /^(?:<heximalDigit>+(?::<heximalDigit>+){7})|(?:0:0:0:0:0:(?:0|FFFF|ffff):<ip4Address>)$/,
+    // ip6Address: /^(?:<heximalDigit>+(?::<heximalDigit>+){7})|(?:0:0:0:0:0:(?:0|FFFF|ffff):<ip4Address>)$/
+    ip6Address: /^(?:<heximalDigit>+(?::<heximalDigit>*){0,7})|(?:0:0:0:0:0:(?:0|FFFF|ffff):<ip4Address>)$/,
 
     middle: /^<noSpaceCrLfColone>(?::|<noSpaceCrLfColone>)*$/,
     trailing: /^(?::|\x20|<noSpaceCrLfColone>)*$/
@@ -75,7 +76,7 @@ if(!String.prototype.trim) {
     } while (isCompleted !== true)
   };
 
-  Patternizer.patternize(pattern);
+  Patternizer.patternize(patterns);
 
   var IRCPacket = function (/* [prefix, ]command[, parameters ... ] */) {
     var length = arguments.length;
@@ -190,6 +191,7 @@ if(!String.prototype.trim) {
 
   if (module !== null) {
     module.exports = IRCPacket;
+    module.exports.patterns = patterns;
   }
 
 })( ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) ? module : null );
