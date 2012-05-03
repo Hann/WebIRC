@@ -7,7 +7,7 @@
 
 
 //////////////////////////////
-//Constructor method
+// Constructor method
 //////////////////////////////
 
 
@@ -35,13 +35,8 @@ CommandReader.patterns = {
 //////////////////////////////
 
 
-/*
- * To do
- * 소문자로 바꿔주기.
- * 
- */
-
 CommandReader.prototype.parseText = function(rawText){    
+    console.log(rawText);
     var splitData = rawText.split(CommandReader.patterns.split);
     if (splitData == rawText){ // 안잘렸으면 스플릿데이터가 같다.
 	console.log(splitData);

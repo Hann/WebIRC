@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes');
+var express = require('express');
+var routes = require('./routes');
 
 
 var app = module.exports = express.createServer()
@@ -38,12 +38,13 @@ app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟
 app.get('/chatUI', routes.chatUI); // for ui scaffolding
 
 io.sockets.on('connection', function (socket) {
-		    socket.emit('hi', { doyou: 'hearme' });
-		    socket.on('connect', function (data) {
+		  socket.emit('contact', { doyou: 'hearme'} , socket.id);
+		  socket.on('connect', function (data) {
 				      console.log(data);
 				    });
-		  socket.on('fromClient', function(data){
+		  socket.on('fromClient', function(data, id){
 				console.log(data);
+				console.log(id);
 			    });
 		  });
 
