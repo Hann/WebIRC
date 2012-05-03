@@ -1,0 +1,1 @@
+git update-index --assume-unchanged ./public/javascripts/irc_packet.js

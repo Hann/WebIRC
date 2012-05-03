@@ -1,0 +1,20 @@
+#container {
+    margin-right : auto;
+    margin-left : auto;
+}
+#chat {
+    background-color : #EEE;
+    border-radius : 4px;
+}
+
+#chattingMessage{
+
+}
+#friends{
+
+    border-radius : 4px;
+}
+
+#typeText{
+    width : 100;
+}
