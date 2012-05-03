@@ -193,4 +193,4 @@ if(!String.prototype.trim) {
     module.exports = IRCPacket;
   }
 
-})( ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) ? module : null );
+})( ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) ? module : (function () { return this; })() );
