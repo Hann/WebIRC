@@ -7,6 +7,7 @@ block append head
     var channel = '#{channel}';
   script(src="/socket.io/socket.io.js")
   script(src="javascripts/CommandReader.js") 
+  script(src="javascripts/irc_packet.js")
   script(src='/javascripts/chat.js')
 
 block contents
@@ -15,7 +16,7 @@ block contents
       li.active
         a(href="#freenode", data-toggle='tab') freenode
       li
-        a(href="#channel", data-toggle='tab') channel
+        a(href="#channel", data-toggle='tab') #{channel}
       li
         a(href="#test", data-toggle='tab') test
     div.tab-content
@@ -25,13 +26,19 @@ block contents
         p I'm in Section2
       div.tab-pane#test
         p I'm in Section3
-  h1 hello world!
-  h2 Nickname = #{nickname}
-  h3 Channel = #{channel}
-  div.raw-fluid
-    div.span8
-      input(type="text", id='chattingMessage', onkeypress='enterKeyEvent(event)')
-    div(class="span4",bgcolor="#222222") test
+  div.row-fluid#container
+    div.span8#chat
+      div.page-header
+        h1 hello world!
+      h2 Nickname = #{nickname}
+      h3 Channel = #{channel}
+      div#chatBox
+        label nickname
+          input(type="text", id='chattingMessage', onkeypress='enterKeyEvent(event)')
+    div.span4#friends
+      ul.nav.nav-pills.nav-stacked
+        li hann
+        li hyeon0135
 
     
 
