@@ -191,7 +191,6 @@ if(!String.prototype.trim) {
 
   if (module !== null) {
     module.exports = IRCPacket;
-    module.exports.patterns = patterns;
   }
 
 })( ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) ? module : null );
