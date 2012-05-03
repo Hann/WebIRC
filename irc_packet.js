@@ -6,7 +6,7 @@ if(!String.prototype.trim) {
 }
 
 // I added the closure because node.js automatically adds closure, but general javascript interpreters not
-(function (module) {
+var IRCPacket =  (function () {
   var patterns = {
     digit: /[0-9]/,
     heximalDigit: /[0-9a-fA-F]/,
@@ -189,8 +189,9 @@ if(!String.prototype.trim) {
     return prefix;
   };
 
-  if (module !== null) {
-    module.exports = IRCPacket;
-  }
+  return IRCPacket;
+})();
 
-})( ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) ? module : (function () { return this; })() );
+if ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) {
+  module.exports = IRCPacket;
+}
