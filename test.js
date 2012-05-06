@@ -1,5 +1,5 @@
 var net = require('net');
-var IRCPacket = require('./irc_packet');
+var Message = require('./irc_packet').Message;
 var fs = require('fs');
 
 var port = 6665;
@@ -37,8 +37,8 @@ client.setEncoding('utf8');
 
 client.on('connect', function () {
   console.log(colorize('<yellow>{message:} connected to server'));
-  client.write(new IRCPacket('NICK', 'NodePacket').build());
-  client.write(new IRCPacket('USER', 'NodePacket', 'NodePacket', 'chat.freenode.net', 'NodePacket').build());
+  client.write(new Message('NICK', 'NodePacket').build());
+  client.write(new Message('USER', 'NodePacket', 'NodePacket', 'chat.freenode.net', 'NodePacket').build());
   console.log(colorize('<yellow>{message:} NICK and USER sent\n'));
 });
 
@@ -54,7 +54,7 @@ client.on('data', function (data) {
     console.log(colorize('<cyan>{packet:} ' + rawPackets[i]));
     
     try {
-      var packet = new IRCPacket().parse(rawPackets[i]);
+      var packet = new Message().parse(rawPackets[i]);
       if (packet.hasOwnProperty('prefix')) {
         if (packet.prefix.type === 1) {
           console.log(colorize('<magenta>{prefix-type-1:} ' + packet.prefix.serverName));
@@ -70,12 +70,13 @@ client.on('data', function (data) {
 
       console.log(colorize('<blue>{command:} ' + packet.command));
       if (packet.command === 'PING') {
-        client.write(new IRCPacket('PONG', packet.parameters[0]).build());
+        client.write(new Message('PONG', packet.parameters[0]).build());
       } else if (packet.command === '376') {
-        client.write(new IRCPacket('JOIN', '#node.js').build());
-        client.write(new IRCPacket('JOIN', '#ubuntu').build()); 
-        client.write(new IRCPacket('JOIN', '#debian').build());
-        client.write(new IRCPacket('JOIN', '#python').build());
+        client.write(new Message('JOIN', '#node.js').build());
+        client.write(new Message('JOIN', '#ubuntu').build()); 
+        client.write(new Message('JOIN', '#debian').build()); 
+        client.write(new Message('JOIN', '#jaram').build());
+        client.write(new Message('JOIN', '#python').build());
       }
 
       console.log(colorize('<magenta>{parameters:} [' + packet.parameters.join(', ') + ']'));
@@ -111,7 +112,7 @@ client.on('data', function (data) {
     console.log(colors.cyan + 'packet' + colors.reset + ' :: ' + packets[i]);
     
     try {
-      var packet = new IRCPacket(packets[i]);
+      var packet = new Message(packets[i]);
       if (packet.prefix) {
         if (packet.prefix.type === 1) {
           console.log(colors.blue + 'parsed prefix-type-1' + colors.reset + ' :: ' + packet.prefix.serverName);

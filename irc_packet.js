@@ -1,151 +1,20 @@
-// for compatibility
-if(!String.prototype.trim) {  
-  String.prototype.trim = function () {  
-    return this.replace(/^\s+|\s+$/g,'');  
-  };
-}
+var IRCPacket = (function () {
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-// I added the closure because node.js automatically adds closure, but general javascript interpreters not
-var IRCPacket =  (function () {
   var patterns = {
-    digit: /[0-9]/,
-    heximalDigit: /[0-9a-fA-F]/,
-    letter: /[a-zA-Z]/,
-    space: /\x20+/,
-    special: /[\[\]\\\`\_\^\{\|\}]/,
-    noSpaceCrLfColone: /[^\x00\x0A\x0D\x20:]/,
+    /* nickname: [a-zA-Z\[\]\\\`\_\^\{\|\}][a-zA-Z0-9\[\]\\\`\_\^\{\|\}\-]{0,15} */
+    /* user: [^\x00\x0A\x0D\x20\@]+ */
+    /* host: [^\x00\x0A\x0D\x20]+ */
+    /* middle: [^\x20\:][^\x20]* */
+    /* trailing: .* */
 
-    message: /^(?::(<prefixType1>|<prefixType2>)<space>)?(<command>)(<parameters>)$/,
-    prefixType1: /^(<serverName>)$/,
-    prefixType2: /^(?:(<nickname>)(?:!(<user>))?(?:@(<host>))?)$/,
-    command: /^(?:<letter>+)|(?:<digit><digit><digit>)$/,
-    parameters: /^((?:<space><middle>){0,14})(?:<space>:(<trailing>))?$/,
-    serverName: /^<hostName>$/,
-    // nickname: /^(?:<letter>|<special>)(?:<letter>|<digit>|<special>|\-){0,8}$/, IRC RFC document says that length of nickname is up to 9. But when I tested in freenode, I can use the nickname up to 16
-    nickname: /^(?:<letter>|<special>)(?:<letter>|<digit>|<special>|\-){0,15}$/,
-    user: /^[^\x00\x0A\x0D\x20@]+$/,
-    host: /^<hostName>|<hostAddress>$/,
-
-    hostName: /^<shortName>(?:[\/\.]<shortName>?)*$/,
-    hostAddress: /^<ip4Address>|<ip6Address>$/,
-
-    shortName: /^(?:<letter>|<digit>)(?:<letter>|<digit>|\-)*(?:<letter>|<digit>)*$/,
-    ip4Address: /^<digit>{1,3}\.<digit>{1,3}\.<digit>{1,3}\.<digit>{1,3}$/,
-    // ip6Address: /^(?:<heximalDigit>+(?::<heximalDigit>+){7})|(?:0:0:0:0:0:(?:0|FFFF|ffff):<ip4Address>)$/
-    ip6Address: /^(?:<heximalDigit>+(?::<heximalDigit>*){0,7})|(?:0:0:0:0:0:(?:0|FFFF|ffff):<ip4Address>)$/,
-
-    middle: /^<noSpaceCrLfColone>(?::|<noSpaceCrLfColone>)*$/,
-    trailing: /^(?::|\x20|<noSpaceCrLfColone>)*$/
-  };
- 
-  // To do: regular expression optimizer(eg. (?:[abc])+ -> [abc]+)
-  var Patternizer = function () { };
-
-  Patternizer.sanitize = function (pattern) {
-    var beginningOrEndPattern = /^\^?(.*?)\$?$/;
-    var capturingGroupPatterns = [/^\(([^\?][^\:])/g, /([^\\])\(([^\?][^\:])/g];
-
-    return pattern.match(beginningOrEndPattern)[1]
-                  .replace(capturingGroupPatterns[0], '(?:$1')
-                  .replace(capturingGroupPatterns[1], '$1(?:$2');
-  };
-
-  Patternizer.patternize = function (patterns) {
-    var assignmentPattern = /<([a-zA-Z0-9]+)>/g;
-    var cacheOfHasOwnProperty = Object.prototype.hasOwnProperty;
-
-    var isCompleted = false;
-    do {
-      isCompleted = true; // assume this logic is completed
-
-      for (var key in patterns) if (cacheOfHasOwnProperty.call(patterns, key)) {
-        if (assignmentPattern.test(patterns[key].source)) {
-          var newPattern = patterns[key].source.replace(assignmentPattern, function (substring, name) {
-            if (name in patterns) {
-              return '(?:' + Patternizer.sanitize(patterns[name].source) + ')'; 
-            }
-          });
-
-          patterns[key] = new RegExp(newPattern);
-          isCompleted = isCompleted && false;
-        } else {
-          isCompleted = isCompleted && true;
-        }
-        
-      }
-    } while (isCompleted !== true)
-  };
-
-  Patternizer.patternize(patterns);
-
-  var IRCPacket = function (/* [prefix, ]command[, parameters ... ] */) {
-    var length = arguments.length;
-    if (length === 0) return ;
-
-    var indexOfCommand = 0;
-    if (arguments[0] instanceof IRCPacket.Prefix) {
-      this.prefix = arguments[0];
-      indexOfCommand = 1;
-    }
-
-    this.command = arguments[indexOfCommand].toUpperCase();
+    // prefix -> write it specifically
+    prefix: [/^((?:[a-zA-Z0-9\-]+[\.\/]?)+)$/, /^([a-zA-Z\[\]\\\`\_\^\{\|\}][a-zA-Z0-9\[\]\\\`\_\^\{\|\}\-]{0,15})(?:\!([^\@]+))?(?:\@(.+))?$/],
+    message: /^(?:\:([^\x20]+)\x20+)?([0-9][0-9][0-9]|[a-zA-Z]+)(.*)$/,
+    parameters: /^\x20+((?:[^\x20\:][^\x20]*\x20+)*[^\x20\:][^\x20]*)?(?:\x20*\:(.*))?$/
+  }
     
-    if ((indexOfCommand + 1) < length) {
-      this.parameters = [];
-
-      for (var i = indexOfCommand + 1; i < arguments.length; i++) {
-        this.parameters.push(arguments[i]);
-      }
-    }
-  };
-
-  // Edit: parameter part
-  IRCPacket.prototype.parse = function (rawPacket) {
-    var message = rawPacket.match(patterns.message);
-    if (message === null) throw new Error('IRCPacket::parse() : Invalid packet');
-
-    if (typeof message[1] !== 'undefined') this.prefix = new IRCPacket.Prefix().parse(message[1]);
-    
-    this.command = message[2].toUpperCase();
-
-    var parameters = message[3].match(patterns.parameters);
-    if ((parameters[1] !== '') || (typeof parameters[2] !== 'undefined')) {
-      this.parameters = [];
-
-      parameters[1] = parameters[1].trim();
-      if (parameters[1] !== '') {
-        var middles = parameters[1].split(/\x20+/);
-        for (var i = 0; i < middles.length; i++) {
-          this.parameters.push(middles[i]);
-        }
-      }
-
-      if (typeof parameters[2] !== 'undefined') this.parameters.push(parameters[2]);
-    }
-
-    return this;
-  };
-
-  IRCPacket.prototype.build = function () {
-    var packet = '';
-    if (this.hasOwnProperty('prefix')) packet = ':' + this.prefix.build();
-
-    packet += this.command.toUpperCase();
-
-    if (this.hasOwnProperty('parameters')) {
-      var length = this.parameters.length;
-      for (var i = 0; i < (length - 1); i++) {
-        packet += ' ' + this.parameters[i];
-      }
-
-      packet += ' ' + ((this.parameters[length - 1].indexOf('\x20') !== -1) ? ':' : '') + this.parameters[length - 1];
-    }
-
-    return packet + '\r\n';
-  };
-
-  IRCPacket.Prefix = function (type/*, parameters... */)
-  {
+  var Prefix = function (type/*, parameters... */) {
     if (type === 1) {
       this.serverName = arguments[1];
     } else if (type === 2) {
@@ -154,22 +23,26 @@ var IRCPacket =  (function () {
       if (typeof arguments[3] !== 'undefined') this.host = arguments[3];
     }
   };
+  
 
-  IRCPacket.Prefix.prototype.parse = function (rawPrefix) {
-    var prefix = rawPrefix.match(patterns.prefixType2);
-    if (prefix !== null) {
+  Prefix.prototype.parse = function (prefix) {
+    console.log(prefix);
+    // pattern[0] and pattern[1] can be matched at the same time
+    // so at first, pattern[1] will be matched because it has more complex and strong rules 
+    var matches = prefix.match(patterns.prefix[1]);
+    if (matches !== null) {
       this.type = 2;
-      this.nickname = prefix[1];
-      if (typeof prefix[2] !== 'undefined') this.user = prefix[2];
-      if (typeof prefix[3] !== 'undefined') this.host = prefix[3];
+      this.nickname = matches[1];
+      if (typeof matches[2] !== 'undefined') this.user = matches[2];
+      if (typeof matches[3] !== 'undefined') this.host = matches[3];
 
       return this;
     }
-    
-    prefix = rawPrefix.match(patterns.prefixType1);
-    if (prefix !== null) {
+
+    matches = prefix.match(patterns.prefix[0]);
+    if (matches !== null) {
       this.type = 1;
-      this.serverName = prefix[1];
+      this.serverName = matches[1];
 
       return this;
     }
@@ -177,21 +50,107 @@ var IRCPacket =  (function () {
     throw new Error('IRCPacket::Prefix::parse() : Invalid prefix');
   };
 
-  IRCPacket.Prefix.prototype.build = function () {
+
+  Prefix.prototype.build = function () {
     var prefix = '';
+
     if (this.type == 1) {
       prefix = this.serverName;
     } else if (this.type == 2) {
       prefix = this.nickname;
-      if (this.hasOwnProperty('user')) prefix += '!' + this.user;
-      if (this.hasOwnProperty('host')) prefix += '@' + this.host;
+      if (hasOwnProperty.call(this, 'user')) {
+        prefix += '!' + this.user;
+      }
+
+      if (hasOwnProperty.call(this, 'host')) {
+        prefix += '@' + this.host;
+      }
     }
+
     return prefix;
   };
 
-  return IRCPacket;
+  var Message = function (/*[prefix, ]command[, parameters...]*/) {
+    var length = arguments.length;
+    if (length === 0) return ;
+
+    var indexOfCommand = 0;
+    
+    if (arguments[0] instanceof IRCPacket.Prefix) {
+      this.prefix = arguments[0];
+      indexOfCommand = 1;
+    }
+
+    this.command = arguments[indexOfCommand].toUpperCase();
+
+    if ((indexOfCommand + 1) < length) {
+      this.parameters = [];
+
+      for (var i = indexOfCommand + 1; i < length; i++) {
+        this.parameters.push(arguments[i]);
+      }
+    }
+  };
+
+  Message.prototype.parse = function (message) {
+    var matches = message.match(patterns.message);
+    if (matches === null) throw new Error('IRCPacket::Message::parse() : Invalid message');
+    
+    // prefix
+    if (typeof matches[1] !== 'undefined') this.prefix = new Prefix().parse(matches[1]);
+
+    // command
+    this.command = matches[2];
+
+    // parameters
+    if (matches[3] === '') return ; // no parameters
+    matches = matches[3].match(patterns.parameters);
+    if (matches === null) throw new Error('IRCPacket::Message::parse() : Invalid parameters');
+    
+    var parameters = [];
+
+    // middles
+    if (typeof matches[1] !== 'undefined') {
+      parameters = matches[1].split(/\x20+/g);
+    }
+    
+    // trailing
+    if (typeof matches[2] !== 'undefined') {
+      parameters.push(matches[2]);
+    }
+
+    if (parameters.length > 0) this.parameters = parameters;
+
+    return this;
+  };
+
+  Message.prototype.build = function () {
+    var message = '';
+    if (hasOwnProperty.call(this, 'prefix')) {
+      message = this.prefix.build();
+    }
+
+    message += this.command;
+
+    if (hasOwnProperty.call(this, 'parameters')) {
+      var length = this.parameters.length;
+      for (var i = 0; i < (length - 1); i++) {
+        message += ' ' + this.parameters[i];
+      }
+
+      message += ' ' + ((this.parameters[length - 1].indexOf(' ') !== -1) ? ':' : '') + this.parameters[length - 1];
+    }
+    
+    return message + '\r\n';
+  };
+
+  return {
+    Prefix: Prefix,
+    Message: Message
+  };
 })();
 
-if ((typeof module !== 'undefined') && (module.hasOwnProperty('exports'))) {
+
+if ((typeof module !== 'undefined') && (Object.prototype.hasOwnProperty.call(module, 'exports'))) {
   module.exports = IRCPacket;
 }
