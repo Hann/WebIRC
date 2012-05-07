@@ -11,37 +11,25 @@ block append head
   script(src='/javascripts/chat.js')
 
 block contents
-  div.container
-    div.tabbable
-      ul.nav.nav-tabs
-        li.active
-          a(href="#freenode", data-toggle='tab') freenode
-        li
-          a(href="#channel", data-toggle='tab') #{channel}
-        li
-          a(href="#test", data-toggle='tab') test
-      div.tab-content
-        div.tab-pane.active#freenode
-          p I'm in Section1
-        div.tab-pane#channel
-          p I'm in Section2
-        div.tab-pane#test
-          p I'm in Section3
-    div.row#container
-      div.span8#chat
-        div.page-header
-          h1 hello world!
-        h2 Nickname = #{nickname}
-        h3 Channel = #{channel}
-        div#chatBox.form-horizontal
-          label #{nickname}
-            input(type="text", id='chattingMessage', onkeypress='enterKeyEvent(event)')
-       div.span4#friends
-        ul.nav.nav-tabs.nav-stacked
-          li
-            a(href="#") #{nickname}
-          li
-            a(href="#") hyeon0135
-
-    
-
+  div.tabbable#container
+    ul.nav.nav-tabs
+      li.active
+        a(href="#freenode", data-toggle='tab') freenode
+    div.tab-content
+      div.tab-pane.active#freenode
+        div#contents
+          div#chat-box
+            div#topic
+              h1 This Is Topic
+            div#chat-container
+              div#time
+              div#log
+          div#user
+            ul.nav.nav-tabs.nav-stacked
+              li
+                a(href="#") #{nickname}
+              li
+                a(href="#") nicknames
+    footer
+      label#nickname(for="message") #{nickname}
+      input(type="text", id='message', onkeypress='enterKeyEvent(event)')

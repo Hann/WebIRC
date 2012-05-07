@@ -1,19 +1,31 @@
-#container {
-
-}
-#chat {
-    background-color : #EEE;
-    border-radius : 4px;
+#chat-box{
+    float : left;
+    padding-bottom : 30px;
 }
 
-#chattingMessage{
-
+#time {
+    float : left;
 }
-#friends{
-
-    border-radius : 4px;
+#log {
+    float : right;
+}
+#user {
+    float : right;
 }
 
-#typeText{
-    width : 100;
+footer{
+    clear : both;
+    position : fixed;
+    bottom : 0;
+    margin-top : -23px;
 }
+
+#nickname{
+    float : left;
+}
+
+#message{
+    margin-left : 10px;
+    float : right;
+}
+
