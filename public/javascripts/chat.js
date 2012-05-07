@@ -8,12 +8,13 @@ function fromClient(message){
 
 function enterKeyEvent(event){
     if (event.keyCode == 13){
-	var message = $('#chattingMessage').val();
+	var message = $('#message').val();
 	if (message != ''){
 	    var cr = new CommandReader();
 	    var parsedData = cr.parseText(message);
 	    if (!(parsedData.command in cr.commandList)){
-		$('body').append("<p><font color ='" + parsedData.color + "' >" + parsedData.parameters + "</font></p>");
+		$('#log').append("<p><font color ='" + parsedData.color + "' >" + parsedData.parameters + "</font></p>");
+		$('#time').append("<p><font color ='" + parsedData.color + "'>" + (new Date().toLocaleTimeString()) + "</font></p>");
 	    }
 	    else {
 		if (parsedData.command == 'MSG'){
@@ -22,14 +23,14 @@ function enterKeyEvent(event){
 	    }
 	    console.log(parsedData);
 	    fromClient(parsedData);
-	    $('#chattingMessage').val('');
+	    $('#message').val('');
+	    $('body').scrollTop(100000000000000000);
 	}
     }
 }
 
 socket.on('contact', function(data , id){	      
 	      sessionId = id;
-	      $('body').append(data);
 	      fromClient({command : nickname , parameters : channel });
 	      console.log(nickname);
 	      console.log(id);
