@@ -27,3 +27,9 @@ exports.chatUI= function(req, res) {
     channel : req.body.channelName
   });
 };
+
+exports.test = function(req, res) {
+  res.render('test', {
+    title: 'test',
+  });
+};

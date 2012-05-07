@@ -1,0 +1,17 @@
+!!! 5
+html(lang='ko')
+  head
+    meta(charset='UTF-8')
+    title= title
+    link(rel='stylesheet', href='/stylesheets/test.css')
+    script(src='/javascripts/jquery-1.7.2.min.js')
+    script(src='/bootstrap/js/bootstrap.min.js')
+    script(src='/javascripts/irc_packet.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/test.js')
+    
+  body
+    section#container
+      div#logs.scrollable
+      div#message
+        input(type='text')
