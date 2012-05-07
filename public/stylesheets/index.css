@@ -1,8 +1,20 @@
+@charset "UTF-8";
+
 body
 {
-	padding-top: 40px;
-	font-size: 24px;
+	font-size: 14px;
 	line-height: 1.25em;
+}
+
+#wrapper
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height: 350px;
+	margin-left: -250px;
+	margin-top: -225px;
 }
 
 header
@@ -12,7 +24,7 @@ header
 
 header h1
 {
-	font-size: 2em;
+	font-size: 3.5em;
 	line-height: 2em;
 }
 
@@ -22,30 +34,34 @@ header h1
 	line-height: 1.4em;
 }
 
-#connect .control-group
+#connect label
 {
-	margin-bottom: 0px;
-}
-
-#connect .control-group .controls .help-block
-{
-	display: none;
+/*	font-weight: bold;*/
+	margin: 0;
+	margin-bottom: 2px;
 }
 
 #connect input
 {
-	height: 1.2em;
-	font-size: 0.9em;
-}
-
-#connect button
-{
 	width: 100%;
+	margin: 0;
+	margin-bottom: 2px;
 }
 
-footer h1
+#button-container
 {
-	font-size: 0.5em;
-	line-height: 0.75em;
-	font-weight: normal;
+	text-align: right;
+}
+
+#submit
+{
+	width: 100px;
+	margin-right: -9px; /* because of ipnut[type=text]'s padding */
+}
+
+footer
+{
+	margin-top: 15px;
+	text-align: center;
+	font-size: 0.9em;
 }

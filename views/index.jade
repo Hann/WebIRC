@@ -5,34 +5,33 @@ block append head
   script(src='/javascripts/index.js')
   
 block contents
-  section#container.container
-    header.row
-        h1.offset3.span6 WebIRC
-    div.row
-      div.offset3.span6
-        form#connect(method='post', action='/chat')
-          div.control-group
-            label.control-label(for='nickname') Nickname (required)
-            div.controls
-              input#nickname.offset3.span6(type='text', name='nickname', placeholder='사용할 닉네임을 입력해주세요', autocomplete='off')
-              p#help-of-nickname.help-block
-          
-          div.control-group
-            label.control-label(for='channel') Channel (required)
-            div.controls
-              input#channel.offset3.span6(type='text', name='channel', placeholder='입장할 채널을 입력해주세요', autocomplete='off')
-              p#help-of-channel.help-block
-              
-          div.control-group
-            label.control-label(for='password') Password (optional)
-            div.controls
-              input#password.offset3.span6(type='text', placeholder='비공개 채널이라면, 비밀번호를 입력해주세요', autocomplete='off')
-              p#help-of-password.help-block
-          
-          div#button-container
-            label.assistive-element(for='submit') Submit
-            button#submit.btn-large.btn-info(type='submit')
-              i.icon-share-alt
-              |  Submit
-    footer.row
-      h1.offset3.span6 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D
+  section#wrapper
+    header
+      h1 WebIRC
+    div#container
+      form#connect(method='post', action='/chat')
+        div.control-group
+          label.control-label(for='nickname') Nickname (required)
+          div.controls
+            input#nickname(type='text', name='nickname', placeholder='사용할 닉네임을 입력해주세요', autocomplete='off')
+            p#help-of-nickname.help-block
+        
+        div.control-group
+          label.control-label(for='channel') Channel (required)
+          div.controls
+            input#channel(type='text', name='channel', placeholder='입장할 채널을 입력해주세요', autocomplete='off')
+            p#help-of-channel.help-block
+            
+        div.control-group
+          label.control-label(for='password') Password (optional)
+          div.controls
+            input#password(type='text', placeholder='비공개 채널이라면, 비밀번호를 입력해주세요', autocomplete='off')
+            p#help-of-password.help-block
+        
+        div#button-container
+          label.assistive-element(for='submit') Submit
+          button#submit.btn.btn-info(type='submit')
+            i.icon-share-alt
+            |  Submit
+    footer
+      span 만든이는 @hannJS와 @hyeon0135입니다만 오픈합니다 :) 마음것 쓰세요 :D

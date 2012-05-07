@@ -26,7 +26,6 @@ var IRCPacket = (function () {
   
 
   Prefix.prototype.parse = function (prefix) {
-    console.log(prefix);
     // pattern[0] and pattern[1] can be matched at the same time
     // so at first, pattern[1] will be matched because it has more complex and strong rules 
     var matches = prefix.match(patterns.prefix[1]);
