@@ -6,8 +6,8 @@ $(function(){
       $(window).resize(function(){
 			   width = parseInt($(this).width());
 			   height = parseInt($(this).height());
-			   $('#chat-container').height(height-44-36-60);
-			   $('#chat-container').width(width-120);
+			   $('#chat-container').height(height-140);
+			   $('#chat-container').width(width-140);
 /*			   if (width > 1024 && width < 1280){
 			       $("link[href*='chat']").attr("href","stylesheets/chat-1024.css");
 			   }
@@ -28,8 +28,14 @@ function enterKeyEvent(event){
 	    var cr = new CommandReader();
 	    var parsedData = cr.parseText(message);
 	    if (!(parsedData.command in cr.commandList)){
+		var log = "<p>"+ nickname + " : " +  parsedData.parameters +"</p>";
+		var time = "<p>" + (new Date().toLocaleTimeString()) + "</p>";
+		$('#log').append(log);
+		$('#time').append(time);
+		/*
 		$('#log').append("<p><font color ='" + parsedData.color + "' >" + parsedData.parameters + "</font></p>");
 		$('#time').append("<p><font color ='" + parsedData.color + "'>" + (new Date().toLocaleTimeString()) + "</font></p>");
+		 */
 	    }
 	    else {
 		if (parsedData.command == 'MSG'){
