@@ -3,6 +3,17 @@ body
 	word-wrap: break-word;
 }
 
+a
+{
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #333;
+}
+
 .assistive-element
 {
 	display: none !important;
