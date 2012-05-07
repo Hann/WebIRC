@@ -36,7 +36,7 @@
 }
 p {
   margin: 0 0 9px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Tahoma, "맑은 고딕", "Malgun Gothic", 돋움, Dotum, AppleGothic, sans-serif;
   font-size: 13px;
   line-height: 18px;
 }
@@ -277,7 +277,7 @@ input,
 button,
 select,
 textarea {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Tahoma, "맑은 고딕", "Malgun Gothic", 돋움, Dotum, AppleGothic, sans-serif;
 }
 label {
   display: block;
