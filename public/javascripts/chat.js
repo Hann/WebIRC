@@ -1,6 +1,21 @@
 var socket = io.connect('http://hann.iptime.org');
 var sessionId;
-
+var width;
+var height;
+$(function(){
+      $(window).resize(function(){
+			   width = parseInt($(this).width());
+			   height = parseInt($(this).height());
+			   $('#chat-container').height(height-44-36-60);
+			   $('#chat-container').width(width-120);
+/*			   if (width > 1024 && width < 1280){
+			       $("link[href*='chat']").attr("href","stylesheets/chat-1024.css");
+			   }
+			   else if (width > 1280){
+			       $("link[href*='chat']").attr("href","stylesheets/chat-1280.css");
+			   }*/
+		       }).resize();
+  });
 function fromClient(message){    
     socket.emit('fromClient' , { command : message.command , parameters : message.parameters}, sessionId);
     console.log(message.command, message.parameters);
