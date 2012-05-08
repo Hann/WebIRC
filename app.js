@@ -75,7 +75,7 @@ io.sockets.on('connection', function (socket) {
    
   client.on('connect', function () {
     console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<green>{message:} ' + 'connected'));
-    socket.emit('ready', socket.connection.remoteAddress);
+    socket.emit('ready', socket.handshake.address.address);
     console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<blue>{message:} ' + "'initialized' emitted"));
   });
   
