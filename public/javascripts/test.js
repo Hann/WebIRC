@@ -1,4 +1,4 @@
-$(document).ready(function () {
+
   var logs = $('#logs');
   var Message = IRCPacket.Message;
   var Prefix = IRCPacket.Prefix;
