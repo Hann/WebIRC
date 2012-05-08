@@ -8,8 +8,7 @@
 ////////////////////////////
 
 var IRCClient = function(object) {
-    this.command = object.commnad;
-    this.parameters = object.parameters;
+    console.log($('div[class*=active]').attr('id'));
 };
 
 ////////////////////////////
@@ -24,5 +23,6 @@ var IRCClient = function(object) {
 
 IRCClient.prototype.toYou = function(){
     var packet = this.command + this.parameters;
+    
     return packet;
 };

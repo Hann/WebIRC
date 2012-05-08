@@ -1,8 +1,24 @@
 var socket = io.connect('http://hann.iptime.org');
 var sessionId;
+var width;
+var height;
+
+
+$(function(){
+      $(window).resize(function(){
+			   width = parseInt($(this).width());
+			   height = parseInt($(this).height());
+			   $('#chat-container').height(height-140);
+			   $('#chat-container').width(width-140);
+		       }).resize();
+  });
+
 
 function fromClient(message){    
-    socket.emit('fromClient' , { command : message.command , parameters : message.parameters}, sessionId);
+//    socket.emit('fromClient' , { command : message.command , parameters : message.parameters}, sessionId);
+    var irc = new IRCClient(message);;
+    var packet = irc.toYou();
+    socket.emit('fromClient' , packet);
     console.log(message.command, message.parameters);
 }
 
@@ -11,20 +27,17 @@ function enterKeyEvent(event){
 	var message = $('#message').val();
 	if (message != ''){
 	    var cr = new CommandReader();
-	    var parsedData = cr.parseText(message);
-	    if (!(parsedData.command in cr.commandList)){
-		$('#log').append("<p><font color ='" + parsedData.color + "' >" + parsedData.parameters + "</font></p>");
-		$('#time').append("<p><font color ='" + parsedData.color + "'>" + (new Date().toLocaleTimeString()) + "</font></p>");
+	    var data = cr.parseText(message);
+	    if (data.command == "PRIVMSG"){
+		var log = "<p>"+ nickname + " : " +  data.parameters +"</p>";
+		var time = "<p>" + (new Date().toLocaleTimeString()) + "</p>";
+		$('#log').append(log);
+		$('#time').append(time);
 	    }
-	    else {
-		if (parsedData.command == 'MSG'){
-		    parsedData.command = "PRIVMSG";
-		}
-	    }
-	    console.log(parsedData);
-	    fromClient(parsedData);
+//	    console.log(parsedData);
+	    fromClient(data);
 	    $('#message').val('');
-	    $('body').scrollTop(100000000000000000);
+	    $('#chat-container').scrollTop(height);
 	}
     }
 }

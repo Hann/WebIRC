@@ -1,0 +1,45 @@
+extends layout
+
+block append head
+  link(rel='stylesheet', href='/stylesheets/chat.css')
+  script
+    var nickname = '#{nickname}';
+    var channel = '#{channel}';
+  script(src="/socket.io/socket.io.js")
+  script(src="javascripts/CommandReader.js") 
+  script(src="javascripts/irc_packet.js")
+  script(src='/javascripts/chat.js')
+
+block contents
+  div.container
+    div.tabbable
+      ul.nav.nav-tabs
+        li.active
+          a(href="#freenode", data-toggle='tab') freenode
+        li
+          a(href="#channel", data-toggle='tab') #{channel}
+      div.tab-content
+        div.tab-pane.active#freenode
+          p I'm in Section1
+        div.tab-pane#channel
+          p I'm in Section2
+    div.row#contents.wrapper
+      div.span8#chat
+        div#head
+          h1 This Is Topic!
+        div#body
+          div#content-area.form-horizontal
+            div#time testsetsetasdfasdfadsf
+            div#message testeststetsetsetset
+        div#foot.form-horizontal.footer
+          label #{nickname}
+            input(type="text", id='chattingMessage', onkeypress='enterKeyEvent(event)')
+       div.span4#friends
+        ul.nav.nav-tabs.nav-stacked
+          li
+            a(href="#") #{nickname}
+          li
+            a(href="#") hyeon0135
+
+    
+

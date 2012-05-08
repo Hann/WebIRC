@@ -1,0 +1,42 @@
+tml,body {
+    height : 100%;
+    margin : 0;
+    padding : 0;
+
+}
+#head {
+    height : 48px;
+    position : relative;
+    z-index : 1;
+}
+#body {
+    min-height : 100%;
+    margin : -48px 0 40px;
+}
+
+#content-area{
+    padding : 48px 0 40px;
+}
+#foot {
+    height : 40px;
+}
+#chat {
+    background-color : #EEE;
+    border-radius : 4px;
+}
+#chatBox {
+    overflow-y : scroll;
+}
+#log {
+    padding :48px 0 40px;
+}
+#input {
+    height : 40px;
+}
+#friends{
+    border-radius : 4px;
+}
+
+#typeText{
+    width : 100;
+}

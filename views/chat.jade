@@ -6,8 +6,8 @@ block append head
     var nickname = '#{nickname}';
     var channel = '#{channel}';
   script(src="/socket.io/socket.io.js")
+  script(src="javascripts/IRCClient.js")
   script(src="javascripts/CommandReader.js") 
-  script(src="javascripts/irc_packet.js")
   script(src='/javascripts/chat.js')
 
 block contents
@@ -32,4 +32,4 @@ block contents
                 a(href="#") nicknames
     footer
       label#nickname(for="message") #{nickname}
-      input(type="text", id='message', onkeypress='enterKeyEvent(event)')
+      input#message(type="text", onkeypress='enterKeyEvent(event)')
