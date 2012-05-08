@@ -11,8 +11,8 @@ $(document).ready(function () {
   }
  
   var socket = io.connect('http://thehjh.com:1234');
-  socket.on('ready', function () {
-    addLog('R', 'ready');
+  socket.on('ready', function (ip) {
+    addLog('R', 'ready, ' + ip);
 
     var message = new Message('NICK', 'HJHTest').build();
     socket.emit('relay', message);
