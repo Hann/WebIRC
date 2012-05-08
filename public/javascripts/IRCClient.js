@@ -1,28 +1,19 @@
-/*
- * IRCClient.js
- * 파싱된 데이터를 가지고 패킷으로 생성해주는 역할
- */
+var Message = IRCPacket.Message;
+var Prefix = IRCPacket.Prefix;
+var socket = io.connect('http://hann.iptime.org');
+var time = $('#time');
+var log = $('#log');
 
-////////////////////////////
-// Constructor method
-////////////////////////////
+function appendlog(message){
+    log.append("<p>" + message + "<p>");
+    time.append("<p>" + (new Date().toLocaleTimeString()) + "</p>");
+}
 
-var IRCClient = function(object) {
-    console.log($('div[class*=active]').attr('id'));
-};
+socket.on('ready', function(ip){
+	      var message = new Message('NICK' , nickname).build();
+	      socket.emit('relay', message);
+	      message = new Message('USER', nickname, ip, 'chat.freenode.net', nickname).build();
+	      socket.emit('relay', message);
+	      appendLog(message);
+	  });
 
-////////////////////////////
-// methods
-////////////////////////////
-
-/*
- *  TO DO
- *  제이슨 --------> 써버에게줄 패킷처럼
- * 
- */
-
-IRCClient.prototype.toYou = function(){
-    var packet = this.command + this.parameters;
-    
-    return packet;
-};

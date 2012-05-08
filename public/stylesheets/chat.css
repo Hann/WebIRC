@@ -1,30 +1,27 @@
+.float-left{
+    float : left;
+}
+.float-right{
+    float : right;
+}
 body {
     margin : 0 10px 0 10px;
-}
-#chat-box{
-    float : left;
 }
 
 #chat-container {
     overflow-y : auto  ;
     background-color : whiteSmoke;
     border-radius : 5px;
-}
+    border : 1px solid rgba(0, 0, 0, 0.05);
 
+}
 #time {
     display : inline-block;
-    float : left;
     margin-right : 10px;
 }
-
 #log {
 
 }
-
-#user {
-    float : right;
-}
-
 footer{
     clear : both;
     margin-top : 10px;
@@ -32,7 +29,6 @@ footer{
 
 #nickname{
     display : inline-block;
-    float : left;
     margin-right : 10px;
 }
 #message{

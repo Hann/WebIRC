@@ -38,7 +38,7 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', routes.index); //index 
-app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
+app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.
 app.get('/chatUI', routes.chatUI); // for ui scaffolding
 app.get('/test', routes.test); // for testing
 

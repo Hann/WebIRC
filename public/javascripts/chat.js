@@ -1,5 +1,4 @@
 var socket = io.connect('http://hann.iptime.org');
-var sessionId;
 var width;
 var height;
 
@@ -13,15 +12,16 @@ $(function(){
 		       }).resize();
   });
 
-
+/*
 function fromClient(message){    
-//    socket.emit('fromClient' , { command : message.command , parameters : message.parameters}, sessionId);
     var irc = new IRCClient(message);;
     var packet = irc.toYou();
     socket.emit('fromClient' , packet);
     console.log(message.command, message.parameters);
 }
+*/
 
+// use jQuery.
 function enterKeyEvent(event){
     if (event.keyCode == 13){
 	var message = $('#message').val();
@@ -35,16 +35,10 @@ function enterKeyEvent(event){
 		$('#time').append(time);
 	    }
 //	    console.log(parsedData);
-	    fromClient(data);
+//	    fromClient(data);
 	    $('#message').val('');
 	    $('#chat-container').scrollTop(height);
 	}
     }
 }
 
-socket.on('contact', function(data , id){	      
-	      sessionId = id;
-	      fromClient({command : nickname , parameters : channel });
-	      console.log(nickname);
-	      console.log(id);
-	  });

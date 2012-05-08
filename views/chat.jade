@@ -18,18 +18,18 @@ block contents
     div.tab-content
       div.tab-pane.active#freenode
         div#contents
-          div#chat-box
+          div#chat-box.float-left
             div#topic
               h1 This Is Topic
             div#chat-container
-              div#time
+              div#time.float-left
               div#log
-          div#user
+          div#user.float-right
             ul.nav.nav-tabs.nav-stacked
               li
                 a(href="#") #{nickname}
               li
                 a(href="#") nicknames
     footer
-      label#nickname(for="message") #{nickname}
+      label#nickname.float-left(for="message") #{nickname}
       input#message(type="text", onkeypress='enterKeyEvent(event)')

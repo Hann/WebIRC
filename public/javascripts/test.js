@@ -1,6 +1,5 @@
 $(document).ready(function () {
   var logs = $('#logs');
-  
   var Message = IRCPacket.Message;
   var Prefix = IRCPacket.Prefix;
 
@@ -10,7 +9,7 @@ $(document).ready(function () {
     logs.stop(true, true).animate({scrollTop: '+=20'});
   }
  
-  var socket = io.connect('http://thehjh.com:1234');
+  var socket = io.connect('http://hann.iptime.org:1234');
   socket.on('ready', function () {
     addLog('R', 'ready');
 
