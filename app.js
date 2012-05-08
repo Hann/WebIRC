@@ -13,11 +13,11 @@ var net = require('net');
 
 var Message = require('./irc_packet').Message;
 
-var IRC_SERVER_HOST = 'chat.freenode.net';
-var IRC_SERVER_PORT = 6665;
+// utilities
+var format = require('./formatter.js').format; // this module also add format method to String's prototype
+var colorize = require('./colorizer.js').colorize;
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -38,87 +38,104 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', routes.index); //index 
-app.post('/chat', routes.chat); // chat 포스트 방식으로 받을때만, 겟으로 받을때에는 에러난다.ㅠ
+app.post('/chat', routes.chat); // it only takes POST verb. if someone access to this by GET, the error will be raised
 app.get('/chatUI', routes.chatUI); // for ui scaffolding
 app.get('/test', routes.test); // for testing
 
-var Colorizer = {
-  pattern: /<(reset|black|red|green|yellow|blue|magenta|cyan|white)>{(.*?[^\\]?)}/g,
-  colors: {
-    reset: '\033[0m',
-    black: '\033[30m',
-    red: '\033[31m',
-    green: '\033[32m',
-    yellow: '\033[33m',
-    blue: '\033[34m',
-    magenta: '\033[35m',
-    cyan: '\033[36m',
-    white: '\033[37m'
-  },
+/*
+  TO DOs
 
-  colorize: function (text) {
-    var output = text.replace(Colorizer.pattern, function (substring, color, text) {
-      return Colorizer.colors[color] + text + Colorizer.colors['reset'];
-    });
+  1.
+  /home/hyeon0135/WebIRC/app.js:61
+      socket.emit('ready', socket.handshake.address.address);
+                                           ^
+  TypeError: Cannot read property 'address' of undefined
+      at Socket.<anonymous> (/home/hyeon0135/WebIRC/app.js:61:42)
+      at Socket.emit (events.js:64:17)
+      at Object.afterConnect [as oncomplete] (net.js:652:10)
 
-    return output.replace(/\\([{}])/g, '$1');
-  }
-};
-var colorize = Colorizer.colorize;
+  2.
+  <ERROR DUMP>--------------------------------------------------------------------
+  { [Error: connect ETIMEDOUT] code: 'ETIMEDOUT', errno: 'ETIMEDOUT', syscall: 'connect' }
+  -------------------------------------------------------------------</ERROR DUMP>
+
+*/
+
+// is it better to make object to store below configures?
+var IRC_SERVER_HOST = 'chat.freenode.net';
+var IRC_SERVER_PORT = 6665;
 
 io.sockets.on('connection', function (socket) {
-  console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<blue>{message:} ' + 'connected'));
+  console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+  console.log(colorize('-><blue>{socket.io:} connected'));
 
-  // EDIT: handling when connection fails
   var client = net.connect(IRC_SERVER_PORT, IRC_SERVER_HOST);
   client.setEncoding('utf8');
-   
+  
   client.on('connect', function () {
-    console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<green>{message:} ' + 'connected'));
+    console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+
     socket.emit('ready', socket.handshake.address.address);
-    console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<blue>{message:} ' + "'initialized' emitted"));
+    console.log(colorize('-><blue>{socket.io:} \'ready\' emitted'));
+
+    // AFTER CLIENT's CONNECTION, set socket.io handlers
+    socket.on('relay', function (message) {
+      console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+      console.log(colorize('-><blue>{socket.io:} relaying'));
+
+      client.write(message);
+      console.log(colorize('-><green>{client:} <magenta>{%s} written'.format(message.substr(0, message.length - 2).replace('}', '\\}'))));
+    });
+
+    socket.on('disconnect', function () {
+      console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+      console.log(colorize('-><blue>{socket.io:} disconnected'));
+
+      // merge them
+      client.write(new Message('QUIT', 'see you later').build()); /// maybe.. it's client's part.. but.. I CANNOT implement in client-side!! how can i catch 'the unload' of browser?
+      client.end();
+
+      console.log(colorize('-><green>{client:} QUIT message written'));
+    });
   });
   
-  // relay: from server to client
-  socket.set('repository', '', function () { // 1. initialize repository
-    console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<blue>{message:} ' + 'repository initialized'));
-    client.on('data', function (data) { // 2. set data listener
-      console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<green>{message:} ' + 'messages received'));
-      socket.get('repository', function (err, repository) { // 3. get repository
-        repository += data;
-        
-        var messages = repository.split('\r\n');
-        socket.set('repository', messages.pop(), function () { // 4. set remains in repository
-          for (var i = 0, length = messages.length; i < length; i++) { // 5. send messages
-            // PING is processed on relay server
-            if (messages[i].match(/PING/i) !== null) { 
-              var message = new Message().parse(messages[i]);
-              if (message.command === 'PING') { 
-                message.command = 'PONG';
-                client.write(message.build());
-                console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<green>{message:} ping-pong'));
-                
-                continue ;
-              }
-            }
+  // what a beautiful depth =_= 
+  // maybe it is better to remove the callback structure
+  socket.set('repository', '', function () {  // 1. initialize repository
+    client.on('data', function (data) { // 2. set 'data' handler
+      console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+      console.log(colorize('-><green>{client:} some data received'));
 
-            socket.emit('relay', messages[i]);
-            console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<blue>{message:} ' + 'message emitted\r\n' + '<yellow>{contents:} ' + messages[i]));
+      socket.get('repository', function (error, repository) { // 2. get repository
+        repository += data; // 3. merge repository and new data
+
+        var messages = repository.split('\r\n');
+        socket.set('repository', messages.pop(), function () {  // 4. store remains in repository
+          for (var i = 0, length = messages.length; i < length; i++) {
+            socket.emit('relay', messages[i]); // 5. EMIT EMIT EMIT!!
           }
         });
       });
+
+      console.log(colorize('-><blue>{socket.io:} some data emitted'));
     });
-
-  });
-  
-  // relay: from client to server
-  socket.on('relay', function (message) {
-    if (message.substr(-2) !== '\r\n') message += '\r\n';
-    client.write(message);
-    console.log(colorize('<magenta>{#' + socket.id + '}\r\n' + '<green>{message:} ' + 'message written\r\n<yellow>{contents:} ' + message.substr(0, message.length - 2)));
   });
 
-  socket.set('client', client);
+  client.on('error', function (error) {
+    console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+    console.log(colorize('-><green>{client:} error occurred'));
+    console.log(colorize('\n<red>{<ERROR DUMP>--------------------------------------------------------------------}'));
+    console.log(error);
+    console.log(colorize('<red>{-------------------------------------------------------------------</ERROR DUMP>}\n'));
+
+    socket.emit('error', 'An error is occurred');
+    console.log(colorize('-><blue>{socket.io:} error emitted'));
+  });
+
+  client.on('close', function (hadError) {
+    console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+    console.log(colorize('-><green>{client:} closed'));
+  });
 });
 
 app.listen(1234, function(){
