@@ -36,11 +36,11 @@ div, input {
 	overflow-y: scroll;
 }
 
-.s {
+.send {
 	color: red;
 }
 
-.r {
+.receive {
 	color:green;
 }
 
