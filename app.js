@@ -10,7 +10,6 @@ var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app); // import socket.io
 
 var net = require('net');
-var process = require('process');
 
 var Message = require('./irc_packet').Message;
 
