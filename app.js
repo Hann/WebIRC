@@ -10,6 +10,7 @@ var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app); // import socket.io
 
 var net = require('net');
+var process = require('process');
 
 var Message = require('./irc_packet').Message;
 
@@ -59,11 +60,17 @@ app.get('/test', routes.test); // for testing
   { [Error: connect ETIMEDOUT] code: 'ETIMEDOUT', errno: 'ETIMEDOUT', syscall: 'connect' }
   -------------------------------------------------------------------</ERROR DUMP>
 
+  3.
+  Reduce the quantity of logs
 */
 
 // is it better to make object to store below configures?
 var IRC_SERVER_HOST = 'chat.freenode.net';
 var IRC_SERVER_PORT = 6665;
+
+io.configure('production', function () {
+  io.set('log level', 1); // reduce logging
+});
 
 io.sockets.on('connection', function (socket) {
   console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
