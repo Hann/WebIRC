@@ -1,36 +1,32 @@
 var net = require('net');
-var Message = require('./irc_packet').Message;
 var fs = require('fs');
+
+var Message = require('./irc_packet').Message;
 
 var port = 6665;
 var host = 'chat.freenode.net';
 
-var Colorizer = {
-  pattern: /<(reset|black|red|green|yellow|blue|magenta|cyan|white)>{(.*?[^\\]?)}/g,
-  colors: {
-    reset: '\033[0m',
-    black: '\033[30m',
-    red: '\033[31m',
-    green: '\033[32m',
-    yellow: '\033[33m',
-    blue: '\033[34m',
-    magenta: '\033[35m',
-    cyan: '\033[36m',
-    white: '\033[37m'
-  },
 
-  colorize: function (text) {
-    var output = text.replace(Colorizer.pattern, function (substring, color, text) {
-      return Colorizer.colors[color] + text + Colorizer.colors['reset'];
-    });
+try {
+  var client = net.connect(port, host);
+  client.setEncoding('utf-8');
 
-    return output.replace(/\\([{}])/g, '$1');
-  }
-};
-var colorize = Colorizer.colorize;
+  console.log(client);
+  
+  client.on('connect', function () {
+    console.log('CONNECTED\n\n');
+    console.log(client);
+  
+  });
 
 
-setTimeout(function () {
+} catch (exception) {
+  console.log('TRY-CATCH - LOG');
+  console.log(exception);
+  console.log('TRY-CATCH - DIR');
+  console.dir(exception);
+}
+/*
 
 var client = net.connect(port, host);
 client.setEncoding('utf8');
