@@ -1,8 +1,10 @@
-Terminology
-1. Prefix: Message의 앞에 붙는 부가 정보
-1. Message: packet의 본체, packet의 전부라고도 할 수 있음
+#IRCPacket
 
-IRCPacket
+##Terminology
+1. Prefix: Message의 앞에 붙는 부가 정보
+2. Message: packet의 본체, packet의 전부라고도 할 수 있음
+
+##IRCPacket
 - Prefix
 - Message
 
