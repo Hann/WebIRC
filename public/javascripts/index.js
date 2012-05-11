@@ -8,41 +8,6 @@ $(document).ready(function () {
   var $channel = $('#channel');
   var $helpBlock = $('.help-block');
 
-  var cookies = (function () {
-    var items = document.cookie.split(/;\s+/g);
-    var position = 0;
-    var result = { };
-    for (var i = 0, length = items.length; i < length; i++) {
-      position = items[i].indexOf('=');
-
-      result[items[i].substr(0, position)] = unescape(items[i].substr(position + 1));
-    }
-
-    return result;
-  })();
-
-
-  $('#connect').submit(function () {
-    if ($nickname.val().match(patterns.nickname) === null) {
-      $nickname.focus();
-      return false;
-    }
-    
-    var channel = $channel.val();
-    if ((channel !== '') && (channel.charAt(0) !== '#')) $channel.val('#' + channel);
-    
-    if ($channel.val().match(patterns.channel) === null) {
-      $channel.focus();
-      return false;
-    }
-    
-    document.cookie = 'nickname=' + escape($nickname.val());
-    document.cookie = 'channel=' + escape($channel.val());
-
-
-    return true;
-  });
-
   $nickname
     .focus(function () {
       $helpBlock.hide();
@@ -95,6 +60,41 @@ $(document).ready(function () {
       $helpBlock.hide();
     });
 
-    if (cookies.hasOwnProperty('nickname')) $nickname.val(cookies.nickname).change().blur();
-    if (cookies.hasOwnProperty('channel')) $channel.val(cookies.channel).change().blur();
+  var cookies = (function () {
+    var items = document.cookie.split(/;\s+/g);
+    var position = 0;
+    var result = { };
+    for (var i = 0, length = items.length; i < length; i++) {
+      position = items[i].indexOf('=');
+
+      result[items[i].substr(0, position)] = unescape(items[i].substr(position + 1));
+    }
+
+    return result;
+  })();
+
+
+  $('#connect').submit(function () {
+    if ($nickname.val().match(patterns.nickname) === null) {
+      $nickname.focus();
+      return false;
+    }
+    
+    var channel = $channel.val();
+    if ((channel !== '') && (channel.charAt(0) !== '#')) $channel.val('#' + channel);
+    
+    if ($channel.val().match(patterns.channel) === null) {
+      $channel.focus();
+      return false;
+    }
+    
+    document.cookie = 'nickname=' + escape($nickname.val());
+    document.cookie = 'channel=' + escape($channel.val());
+
+
+    return true;
+  });
+
+  if (cookies.hasOwnProperty('nickname')) $nickname.val(cookies.nickname).change().blur();
+  if (cookies.hasOwnProperty('channel')) $channel.val(cookies.channel).change().blur();
 });
