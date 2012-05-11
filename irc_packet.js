@@ -126,7 +126,7 @@ var IRCPacket = (function () {
   Message.prototype.build = function () {
     var message = '';
     if (hasOwnProperty.call(this, 'prefix')) {
-      message = this.prefix.build();
+      message = this.prefix.build() + ' ';
     }
 
     message += this.command;
