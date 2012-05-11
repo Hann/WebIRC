@@ -1,7 +1,8 @@
 /*
  * CommandReader.js
  * 데이터를 파싱해서 JSON으로 넘겨주는 역할
- * 
+ * 어떤 명령어인지 분석해서 커맨드와 파라미터로 나눠준다.
+ * 진짜 분석은 IRCPacket가 할 일.
  */
 
 
@@ -15,7 +16,7 @@ var CommandReader = function(){
     this.command = '';
     this.parameters = '';
     this.message = '';
-    this.commandList = { MSG : 1, JOIN : 1, NICK : 1, NOTICE : 1 };
+    this.commandList = { MSG : 1, JOIN : 1, NICK : 1, NOTICE : 1 , TOPIC : 1};
 };
 
 
@@ -38,9 +39,14 @@ CommandReader.patterns = {
 CommandReader.prototype.parseText = function(rawText){    
     console.log(rawText);
     var splitData = rawText.split(CommandReader.patterns.split);
-    var active = $('div[class*=active]').attr('id');
+    var active = $('li.active a').text();
     if (splitData == rawText || (splitData[1].toUpperCase() == "MSG")){ // 안잘렸으면 스플릿데이터가 같다.
-	return {command : 'PRIVMSG' , parameters : active + ": " + rawText, color : 'black'};
+	if (active == $('li:first').find('a').text()){
+	    return {command : 'PRVIMSG' , parameters : rawText};
+	}
+	else{
+	    return {command : 'PRIVMSG' , parameters : active + " " + rawText, color : 'black'};
+	}
     }
     else {
 	this.command = splitData[1].toUpperCase();
@@ -50,7 +56,7 @@ CommandReader.prototype.parseText = function(rawText){
 		return { command : this.command , parameters : this.parameters};
 	    }
 	    else {
-		return { command : this.command , parameters : active + ": " + this.parameters};
+		return { command : this.command , parameters : active + " "+ this.parameters};
 	    }
 	}
 	else{

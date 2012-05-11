@@ -6,30 +6,37 @@ block append head
     var nickname = '#{nickname}';
     var channel = '#{channel}';
   script(src="/socket.io/socket.io.js")
+  script(src="javascripts/irc_packet.js")
   script(src="javascripts/IRCClient.js")
   script(src="javascripts/CommandReader.js") 
+
   script(src='/javascripts/chat.js')
+
 
 block contents
   div.tabbable#container
     ul.nav.nav-tabs
       li.active
         a(href="#freenode", data-toggle='tab') freenode
+      li
+        a(href="#{channel}", data-toggle='tab') #jaram
     div.tab-content
       div.tab-pane.active#freenode
         div#contents
-          div#chat-box
+          div#chat-box.float-left
             div#topic
               h1 This Is Topic
             div#chat-container
-              div#time
+              div#time.float-left
               div#log
-          div#user
+          div#user.float-right
             ul.nav.nav-tabs.nav-stacked
               li
                 a(href="#") #{nickname}
               li
                 a(href="#") nicknames
+      div.tab-pane#jaram test
+
     footer
-      label#nickname(for="message") #{nickname}
-      input#message(type="text", onkeypress='enterKeyEvent(event)')
+      label#nickname.float-left(for="message") #{nickname}
+      input#message(type="text")
