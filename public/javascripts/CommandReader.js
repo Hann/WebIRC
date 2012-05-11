@@ -42,7 +42,7 @@ CommandReader.prototype.parseText = function(rawText){
     var active = $('li.active a').text();
     if (splitData == rawText || (splitData[1].toUpperCase() == "MSG")){ // 안잘렸으면 스플릿데이터가 같다.
 	if (active == $('li:first').find('a').text()){
-	    return {command : 'PRVIMSG' , parameters : rawText};
+	    return {command : 'PRIVMSG' , parameters : rawText};
 	}
 	else{
 	    return {command : 'PRIVMSG' , parameters : active + " " + rawText, color : 'black'};
