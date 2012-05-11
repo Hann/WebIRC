@@ -18,6 +18,8 @@ block contents
     ul.nav.nav-tabs
       li.active
         a(href="#freenode", data-toggle='tab') freenode
+      li
+        a(href="#{channel}", data-toggle='tab') #jaram
     div.tab-content
       div.tab-pane.active#freenode
         div#contents
@@ -33,6 +35,8 @@ block contents
                 a(href="#") #{nickname}
               li
                 a(href="#") nicknames
+      div.tab-pane#jaram test
+
     footer
       label#nickname.float-left(for="message") #{nickname}
       input#message(type="text")

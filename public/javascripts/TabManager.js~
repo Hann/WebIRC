@@ -1,0 +1,13 @@
+/*
+ * TabManager.js 
+ * 
+ */
+
+var TabManager = function(){
+    this.tabs = 1;
+    
+};
+
+TabManager.prototype.openTheWindow = function() {
+    
+};
