@@ -11,15 +11,13 @@ block append head
   script(src="javascripts/CommandReader.js") 
 
   script(src='/javascripts/chat.js')
-
+  script(src='/javascripts/TabManager.js')
 
 block contents
   div.tabbable#container
     ul.nav.nav-tabs
       li.active
         a(href="#freenode", data-toggle='tab') freenode
-      li
-        a(href="#{channel}", data-toggle='tab') #jaram
     div.tab-content
       div.tab-pane.active#freenode
         div#contents
@@ -30,12 +28,11 @@ block contents
               div#time.float-left
               div#log
           div#user.float-right
-            ul.nav.nav-tabs.nav-stacked
+            ul#nicks.nav.nav-tabs.nav-stacked
               li
                 a(href="#") #{nickname}
               li
                 a(href="#") nicknames
-      div.tab-pane#jaram test
 
     footer
       label#nickname.float-left(for="message") #{nickname}

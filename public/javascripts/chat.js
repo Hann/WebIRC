@@ -18,7 +18,6 @@ $(document).ready(function () {
 		      }
 		      function scroll(){
 			  scrollHeight += 20;
-			  console.log(scrollHeight);
 			  $('#chat-container').scrollTop(scrollHeight);
 		      }
 		      
