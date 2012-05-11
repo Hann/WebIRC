@@ -15,7 +15,7 @@
 				
 				if ($this.val() === '') {
 					$help.text('사용할 닉네임을 입력해주세요');
-				} else  if ($this.val().match(/^[a-zA-Z\-\_\[\]\\\`\^\{\}\|][a-zA-Z\-\_\[\]\\\`\^\{\}\|0-9]*$/)) {
+				} else  if ($this.val().match(/^[a-zA-Z0-9\[\]\\\`\_\^\{\|\}\-]{1,16}$/)) {
 					$controlGroup.removeClass('error success').addClass('success');
 					$help.text('다음으로 넘어가셔도 좋습니다');
 				}else {
@@ -43,7 +43,7 @@
 				
 				if ($this.val() === '') {
 					$help.text('입장할 채널을 입력해주세요');
-				} else  if ($this.val().match(/^[&#]?[^\x20\x07\,]+$/)) {
+				} else  if ($this.val().match(/^[\&\#\+\!]?[^\x20\x07\,]{0,49}$/)) {
 					$controlGroup.removeClass('error success').addClass('success');
 					$help.text('다음으로 넘어가셔도 좋습니다');
 				}else {
@@ -53,6 +53,9 @@
 			})
 			
 			.blur(function () {
+        var $this = $(this);
+        var channel = $this.val();
+        if ((channel !== '') && (channel.charAt(0) !== '#')) $this.val('#' + channel);
 				$('.help-block').hide();
 			});
 	})

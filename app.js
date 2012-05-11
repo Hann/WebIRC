@@ -10,12 +10,12 @@ var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app); // import socket.io
 
 var net = require('net');
-
 var Message = require('./irc_packet').Message;
 
 // utilities
-var format = require('./formatter.js').format; // this module also add format method to String's prototype
 var colorize = require('./colorizer.js').colorize;
+var isDevelopment = (process.env.NODE_ENV === 'development');
+
 
 // Configuration
 app.configure(function(){
@@ -71,30 +71,33 @@ io.configure('production', function () {
   io.set('log level', 1); // reduce logging
 });
 
+var lastId = 0;
 io.sockets.on('connection', function (socket) {
-  console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+  lastId++;
+
+  console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
   console.log(colorize('-><blue>{socket.io:} connected'));
 
   var client = net.connect(IRC_SERVER_PORT, IRC_SERVER_HOST);
   client.setEncoding('utf8');
   
   client.on('connect', function () {
-    console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+    console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
 
     socket.emit('ready', socket.handshake.address.address);
     console.log(colorize('-><blue>{socket.io:} \'ready\' emitted'));
 
     // AFTER CLIENT's CONNECTION, set socket.io handlers
     socket.on('relay', function (message) {
-      console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+      console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
       console.log(colorize('-><blue>{socket.io:} relaying'));
 
       client.write(message);
-      console.log(colorize('-><green>{client:} <magenta>{%s} written'.format(message.substr(0, message.length - 2).replace('}', '\\}'))));
+      if (isDevelopment) console.log(colorize('-><green>{client:} <magenta>{%s} written'.format(message.substr(0, message.length - 2).replace('}', '\\}'))));
     });
 
     socket.on('disconnect', function () {
-      console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+      console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
       console.log(colorize('-><blue>{socket.io:} disconnected'));
 
       // merge them
@@ -109,7 +112,7 @@ io.sockets.on('connection', function (socket) {
   // maybe it is better to remove the callback structure
   socket.set('repository', '', function () {  // 1. initialize repository
     client.on('data', function (data) { // 2. set 'data' handler
-      console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+      console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
       console.log(colorize('-><green>{client:} some data received'));
 
       socket.get('repository', function (error, repository) { // 2. get repository
@@ -117,6 +120,7 @@ io.sockets.on('connection', function (socket) {
 
         var messages = repository.split('\r\n');
         socket.set('repository', messages.pop(), function () {  // 4. store remains in repository
+
           for (var i = 0, length = messages.length; i < length; i++) {
             socket.emit('relay', messages[i]); // 5. EMIT EMIT EMIT!!
           }
@@ -128,7 +132,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   client.on('error', function (error) {
-    console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+    console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
     console.log(colorize('-><green>{client:} error occurred'));
     console.log(colorize('\n<red>{<ERROR DUMP>--------------------------------------------------------------------}'));
     console.log(error);
@@ -139,7 +143,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   client.on('close', function (hadError) {
-    console.log(colorize('\n<yellow>{#%s}'.format(socket.id)));
+    console.log(colorize('\n<yellow>{#%s (%s)}'), lastId, socket.id);
     console.log(colorize('-><green>{client:} closed'));
   });
 });

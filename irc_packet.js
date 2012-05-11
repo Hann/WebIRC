@@ -2,7 +2,7 @@ var IRCPacket = (function () {
   var hasOwnProperty = Object.prototype.hasOwnProperty;
 
   var patterns = {
-    /* nickname: [a-zA-Z\[\]\\\`\_\^\{\|\}][a-zA-Z0-9\[\]\\\`\_\^\{\|\}\-]{0,15} */
+    /* nickname: [a-zA-Z0-9\[\]\\\`\_\^\{\|\}\-]{1,16} */
     /* user: [^\x00\x0A\x0D\x20\@]+ */
     /* host: [^\x00\x0A\x0D\x20]+ */
     /* middle: [^\x20\:][^\x20]* */
