@@ -1,1 +1,1 @@
-../../irc_packet.js
+../../irc_packet/index.js
