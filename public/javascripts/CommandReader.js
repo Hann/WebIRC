@@ -45,7 +45,7 @@ CommandReader.prototype.parseText = function(rawText){
 	    return {command : 'PRIVMSG' , parameters : rawText};
 	}
 	else{
-	    return {command : 'PRIVMSG' , parameters : "#" + active + " " + rawText, color : 'black'};
+	    return {command : 'PRIVMSG' , parameters : "#" + active + " :" + rawText, color : 'black'};
 	}
     }
     else {
@@ -56,7 +56,7 @@ CommandReader.prototype.parseText = function(rawText){
 		return { command : this.command , parameters : this.parameters};
 	    }
 	    else {
-		return { command : this.command , parameters : active + " "+ this.parameters};
+		return { command : this.command , parameters : "#" + active + " :"+ this.parameters};
 	    }
 	}
 	else{

@@ -5,13 +5,20 @@ $(document).ready(function () {
 		      var tm = TabManager;
 
 		      var socket = io.connect('http://hann.iptime.org');
-		      var time = $('#time');
-		      var log = $('#log');
+		      var time = "#time";
+		      var log = "#log";
 		      var scrollHeight;
 		      
-		      function appendLog(message){
-			  log.append("<p>" + message + "</p>");
-			  time.append("<p>" + (new Date().toLocaleTimeString()) + "</p>");
+		      function appendLog(message, active, id){
+			  if (typeof id == 'undefined'){
+			      id = '';
+			  }
+			  else{
+			      id = id + " : ";
+			  }
+
+			  $('#log_' + active).append("<p>" + id + message + "</p>");
+			  $('#time_' + active).append("<p>" + (new Date().toLocaleTimeString()) + "</p>");
 		      }
 
 		      function emit(message){
@@ -25,46 +32,78 @@ $(document).ready(function () {
 		      
 		      socket.on('ready', function(ip){
 				    var message = new Message('NICK' , nickname).build();			
+				    var active = $('li.active a').text();
 				    emit(message);
 				    
 				    message = new Message('USER', nickname, ip, 'chat.freenode.net', nickname).build();
 				    console.log("NICK ",message);
 				    emit(message);
-				    appendLog(message);
+				    appendLog(message, 'freenode');
 				    
 				    message = new Message('JOIN', channel).build();
-				    emit(message);
-				    appendLog(message);
+				    emit(message, active);
+				    appendLog(message, 'freenode');
 				});
 
 		      socket.on('relay', function(message){
 				    var li = $('li a[data-toggle="tab"]');
 				    var packet = new Message().parse(message);
+				    var active = $('li.active a').text();
+				    var tab = new tm();
 				    if (packet.command === 'PING'){
 					packet.command = 'PONG';
 					packet = packet.build();
 					emit(packet);
 				    }
-				    else{
-					console.log(packet);
-					if (packet.command === 'PRIVMSG'){
-					    var tab = new tm();
+				    else if(packet.command === 'PRIVMSG'){
+
 					    var count = 0;
+					    var ch = packet.parameters[0].substring(1);
 					    $.each(li , function(key, value) {
-						       console.log(value.id + " vs " + packet.parameters[0].substring(1));
-						       if (value.id == packet.parameters[0].substring(1)){
+						       console.log(value.id + " vs " + ch);
+						       if (value.id == (ch + "_")){
 							   count++;
 						       }
 						   });
 					    if (count== 0) {
-						tab.addTab(packet.parameters[0].substring(1));
+						tab.addTab(ch);
+						tab.openTheTab(ch);
 					    }
-					}
-
-					console.log(packet);
-					appendLog(message);
-					scroll();
+					appendLog(packet.parameters[1], ch, packet.prefix.nickname);
 				    }
+				    else if (packet.command === "JOIN") {
+					var ch = packet.parameters[0].substring(1);
+					tab.addTab(ch);
+					tab.openTheTab(ch);
+
+				    }
+				    else if (packet.command === "332") {					
+					var ch = packet.parameters[1].substring(1);
+					var topic = packet.parameters[2];
+					appendLog(message, 'freenode');
+					tab.addTopic(ch, topic);
+					console.log(ch + " " + topic);
+				    }
+				    else if (packet.command === "353"){
+					var ch = packet.parameters[2].substring(1);
+					appendLog(message, 'freenode');
+					tab.addList(ch, packet.parameters[3]);
+
+				    }
+				    else if (packet.command === "TOPIC"){
+					var ch = packet.parameters[0].substring(1);
+					var topic = packet.parameters[1];
+					console.log(ch + " " + topic);
+					tab.addTopic(ch, topic);
+					
+
+				    }
+				    else{
+					appendLog(message, 'freenode');
+				    }
+				    console.log(packet);
+				    scroll();
+				    
 				});
 
 
@@ -86,10 +125,9 @@ $(document).ready(function () {
 					  if (message != ''){
 					      var cr = new CommandReader();
 					      var data = cr.parseText(message);
-					      
+					      var active = $('li.active a').text();
 					      if (data.command == "PRIVMSG"){
-						  appendLog(message);
-
+						  appendLog(message, active, nickname);
 					      }
 					      message = new Message().parse(data.command + " " + data.parameters).build();
 					      emit(message);
