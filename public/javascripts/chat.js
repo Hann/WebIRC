@@ -2,6 +2,8 @@ $(document).ready(function () {
 		      var input = $('#message');
 		      var Message = IRCPacket.Message;
 		      var Prefix = IRCPacket.Prefix;
+		      var tm = TabManager;
+
 		      var socket = io.connect('http://hann.iptime.org');
 		      var time = $('#time');
 		      var log = $('#log');
@@ -36,6 +38,7 @@ $(document).ready(function () {
 				});
 
 		      socket.on('relay', function(message){
+				    var li = $('li a[data-toggle="tab"]');
 				    var packet = new Message().parse(message);
 				    if (packet.command === 'PING'){
 					packet.command = 'PONG';
@@ -43,6 +46,22 @@ $(document).ready(function () {
 					emit(packet);
 				    }
 				    else{
+					console.log(packet);
+					if (packet.command === 'PRIVMSG'){
+					    var tab = new tm();
+					    var count = 0;
+					    $.each(li , function(key, value) {
+						       console.log(value.id + " vs " + packet.parameters[0].substring(1));
+						       if (value.id == packet.parameters[0].substring(1)){
+							   count++;
+						       }
+						   });
+					    if (count== 0) {
+						tab.addTab(packet.parameters[0].substring(1));
+					    }
+					}
+
+					console.log(packet);
 					appendLog(message);
 					scroll();
 				    }
