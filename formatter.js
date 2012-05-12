@@ -32,6 +32,8 @@ var Formatter = (function () {
     }
   };
   
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+
   var formatPattern = /%(?:(0)?(\d+))?(?:\.(\d+))?([dfxXs%])/g;
 
   var format = function (text) {
@@ -39,7 +41,8 @@ var Formatter = (function () {
     var currentIndex = 0;
 
     // For String.prototype.format
-    if (Object.prototype.toString.call(arguments[1]) == "[object Arguments]")
+    // if (Object.prototype.toString.call(arguments[1]) === "[object Arguments]")
+    if (hasOwnProperty.call(arguments[1], 'callee')) // this condition is weaker than the above condition.. but.. because of IE under 9.....:'(
     {
       // String.prototype.format -> arguments = [String, arguments[]]
       parameters = Array.prototype.slice.call(arguments[1], 0);
