@@ -77,6 +77,7 @@ $(document).ready(function () {
 					tab.openTheTab(ch);
 
 				    }
+
 				    else if (packet.command === "332") {					
 					var ch = packet.parameters[1].substring(1);
 					var topic = packet.parameters[2];
@@ -89,6 +90,13 @@ $(document).ready(function () {
 					appendLog(message, 'freenode');
 					tab.addList(ch, packet.parameters[3]);
 
+				    }
+				    else if (packet.command === "433"){
+					nickname = nickname + "_";
+					var message = new Message('NICK' , nickname).build();			
+					emit(message);
+					$('#nickname').text(nickname);
+					
 				    }
 				    else if (packet.command === "TOPIC"){
 					var ch = packet.parameters[0].substring(1);

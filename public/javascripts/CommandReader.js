@@ -52,7 +52,7 @@ CommandReader.prototype.parseText = function(rawText){
 	this.command = splitData[1].toUpperCase();
 	this.parameters = splitData[2];
 	if(this.command in this.commandList){ // 유효한 커멘드 인지 검사.
-	    if (this.command == "NICK"){
+	    if (this.command == "NICK" || this.command == "JOIN"){
 		return { command : this.command , parameters : this.parameters};
 	    }
 	    else {
