@@ -120,8 +120,8 @@ $(document).ready(function () {
 						 width = parseInt($(this).width());
 						 height = parseInt($(this).height());
 						 scrollHeight = height;
-						 $('#chat-container').height(height-140);
-						 $('#chat-container').width(width-140);
+						 $('.chat').height(height-140);
+						 $('.chat').width(width-140);
 					     }).resize();
 			});
 

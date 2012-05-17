@@ -8,14 +8,14 @@ body {
     margin : 0 10px 0 10px;
 }
 
-#chat-container {
+.chat {
     overflow-y : auto  ;
     background-color : whiteSmoke;
     border-radius : 5px;
     border : 1px solid rgba(0, 0, 0, 0.05);
 
 }
-#time {
+.time {
     display : inline-block;
     margin-right : 10px;
 }

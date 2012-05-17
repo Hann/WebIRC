@@ -13,8 +13,8 @@ TabManager.prototype.openTheTab = function(channel) {
                         "<div id = 'contents_" + channel + "'>" +
 	                   "<div id = 'chat-box_" + channel + "' class = 'float-left'>" +
 	                     "<div id = 'topic_" + channel + "'> <h1></h1> </div>" +
-	                     "<div id = 'chat-container_" + channel + "'>" +
-                                "<div id = 'time_" + channel + "' class = 'float-left'> </div>" +
+	                     "<div id = 'chat-container_" + channel + "'class = 'chat'>" +
+                                "<div id = 'time_" + channel + "' class = 'float-left time'> </div>" +
                                 "<div id = 'log_" + channel + "'> </div>"+
 	                "</div>" +
                         "<div id = 'user_" + channel + "' class = 'float-right'>" +
