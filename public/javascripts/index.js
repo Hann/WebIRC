@@ -97,4 +97,10 @@ $(document).ready(function () {
 
   if (cookies.hasOwnProperty('nickname')) $nickname.val(cookies.nickname).change().blur();
   if (cookies.hasOwnProperty('channel')) $channel.val(cookies.channel).change().blur();
+		      
+		      
+//notification
+  window.webkitNotifications.requestPermission();
+
 });
+

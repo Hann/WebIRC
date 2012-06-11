@@ -28,6 +28,7 @@ CommandReader.patterns = {
     
   split : /^\/([a-zA-Z]+)(?:[ ,]*)(.*)/g,
   command : /^\/[a-zA-Z]+/g //temp
+
     
 };
 

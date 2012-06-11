@@ -7,15 +7,15 @@ block append head
     var channel = '#{channel}';
   script(src="/socket.io/socket.io.js")
   script(src="javascripts/irc_packet.js")
-  script(src="javascripts/IRCClient.js")
   script(src="javascripts/CommandReader.js") 
+  script(src="javascripts/CommandEvent.js") 
 
   script(src='/javascripts/chat.js')
   script(src='/javascripts/TabManager.js')
 
 block contents
   div.tabbable#container
-    ul.nav.nav-tabs
+    ul.nav.nav-tabs#tabs
       li.active
         a#freenode_(href="#freenode", data-toggle='tab') freenode
     div.tab-content
@@ -30,10 +30,10 @@ block contents
           div#user.float-right
             ul#nicks.nav.nav-tabs.nav-stacked
               li
-                a(href="#") #{nickname}
+                a(href="#", class = '#{nickname}') #{nickname}
               li
                 a(href="#") nicknames
 
     footer
-      label#nickname.float-left(for="message") #{nickname}
+      label#nickname(for="message",class="float-left "+ '#{nickname}') #{nickname}
       input#message(type="text")
