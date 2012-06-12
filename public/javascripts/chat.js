@@ -111,7 +111,19 @@ $(function(){
   });
 
 
-
+// please don't leave page.
+if (document.addEventListener) {
+    window.addEventListener('beforeunload', function() {
+				return "다른 페이지로 이동하면 IRC에서 나오게됩니다.";
+			    }, false);
+    // IE
+} else {
+    window.attachEvent('onbeforeunload', function(event) {
+			   if (event) {
+			       event.returnValue = "다른 페이지로 이동하면 IRC에서 나오게됩니다.";
+			   }
+		       });
+}
 
 //enter keyboard 
 $(document).ready(function () {
@@ -122,7 +134,7 @@ $('#message').keypress(function (event){
 		    if (message != ''){ 
 			var commandGenerator = new CommandReader();
 			var raw_packet = commandGenerator.parseText(message);
-			var active_channel = $('li.active a').text();
+			var active_channel = $('li.active a').attr('id').replace('_', '');
 			if (raw_packet.command == "PRIVMSG"){
 			    appendLog(message, active_channel, nickname);
 			}
@@ -132,5 +144,10 @@ $('#message').keypress(function (event){
 		    }
 		}
 	    });
+//click
+$('button').click(function(event){
+		      alert(event.target.id);
+		      console.log('tteeeesttt');
+		  });		      
  });
 

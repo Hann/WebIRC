@@ -63,7 +63,7 @@ CommandEvent.on('PRIVMSG', function(packet, raw_packet, me) {
 		    // notification
 		    if (window.webkitNotifications) {
 			var message = packet.parameters[1];
-			var auser    = packet.prefix.nickname;
+			var user    = packet.prefix.nickname;
 			var isMention = message.search(nickname) + 1;
 
 			if (isMention){

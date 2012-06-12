@@ -40,7 +40,7 @@ CommandReader.patterns = {
 CommandReader.prototype.parseText = function(rawText){    
     console.log(rawText);
     var splitData = rawText.split(CommandReader.patterns.split);
-    var active = $('li.active a').text();
+    var active = $('li.active a').attr('id').replace('_', '');
     if (splitData == rawText || (splitData[1].toUpperCase() == "MSG")){ // 안잘렸으면 스플릿데이터가 같다.
 	if (active == $('li:first').find('a').text()){
 	    return {command : 'PRIVMSG' , parameters : rawText};

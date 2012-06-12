@@ -31,7 +31,7 @@ TabManager.prototype.openTheTab = function(channel) {
 };
 
 TabManager.prototype.addTab = function(channel) {
-    $('.nav-tabs:first').append("<li> <a href='#" + channel + "' id ='" + channel + "_'data-toggle ='tab'>" + channel +"</a></li>");
+    $('.nav-tabs:first').append("<li> <a href='#" + channel + "' id ='" + channel + "_'data-toggle ='tab'>" + channel +"<button class='close'>&times;</button></a></li>");
    
 };
 
