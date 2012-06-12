@@ -1,14 +1,6 @@
 var TabManager = TabManager;
 var Message = IRCPacket.Message;
 
-function createNotificationInstance(options) {
-      if (options.notificationType == 'simple') {
-	  return window.webkitNotifications.createNotification(
-	      'icon.png', 'Notification Title', 'Notification content...');
-      } else if (options.notificationType == 'html') {
-	  return window.webkitNotifications.createHTMLNotification('http://hann.iptime.org:1234');
-      }
-}
 
 var CommandEvent = {
     handlers : {},
@@ -69,13 +61,15 @@ CommandEvent.on('PRIVMSG', function(packet, raw_packet, me) {
 		    }
 		    
 		    // notification
-		    var isMention = raw_packet.search(nickname) + 1;
-		    if (isMention){
-			if (window.webkitNotifications.checkPermission() == 0) { //0 isPERMISSION_ALLOWED
+		    if (window.webkitNotifications) {
+			var message = packet.parameters[1];
+			var auser    = packet.prefix.nickname;
+			var isMention = message.search(nickname) + 1;
 
-			    createNotificationInstance({ notificationType: 'html' });
-			} else {
-			    window.webkitNotifications.requestPermission();
+			if (isMention){
+			    if (window.webkitNotifications.checkPermission() == 0) { //0 isPERMISSION_ALLOWED
+				me.createNotification(message, user);
+			    }
 			}
 		    }
 		    me.appendLog(packet.parameters[1], channel_name, packet.prefix.nickname);

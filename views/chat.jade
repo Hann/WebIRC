@@ -37,3 +37,12 @@ block contents
     footer
       label#nickname(for="message",class="float-left "+ '#{nickname}') #{nickname}
       input#message(type="text")
+  div(class="modal hide",id="myModal")
+    div(class="modal-header")
+      button(type="button",class="close",data-dismiss="modal")×
+      h3 Notification
+    div(class="modal-body")
+      p 알림기능을 사용하시겠습니까?
+    div(class="modal-footer")
+      a(href="#",class="btn",data-dismiss="modal") No
+      a(href="#",class="btn btn-primary", data-dismiss="modal",onclick="requestNotificationPermision()") Yes

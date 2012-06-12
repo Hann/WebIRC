@@ -1,4 +1,3 @@
-
 /*
  *  variables
  */
@@ -15,6 +14,21 @@ var me = this;
  *  functions
  */
 
+function requestNotificationPermision(){
+	window.webkitNotifications.requestPermission();
+}
+
+function createNotification(message, user) {
+    var icon = 'images/hyeon.jpg';
+    var title = user + "님이 언급하셨습니다. **WebIRC**" ;
+    var popup = window.webkitNotifications.createNotification(icon, title, message);
+    popup.show();
+    console.log('shown');
+    setTimeout(function() {
+		   popup.cancel();
+	       }, '15000');
+    
+}
 
 function appendLog(message, channel, user_id){
     // who typed a message!
@@ -70,6 +84,11 @@ socket.on('ready', function(ip){
 	      
 	      built_packet = new Message('USER', nickname, ip, 'chat.freenode.net', nickname).build();
 	      sendToServer(built_packet);
+	      if (window.webkitNotifications) {
+		  if (window.webkitNotifications.checkPermission()> 0){
+		      $('#myModal').modal({ show : true});
+		  }
+	      }
 	  });
 	  
 	  
