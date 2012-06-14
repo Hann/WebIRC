@@ -31,14 +31,14 @@ var CommandEvent = {
 CommandEvent.on('PING', function(packet, raw_packet, me) {
 		    packet.command = 'PONG';
 		    packet = packet.build();
-		    me.sendToServer('packet');
+		    me.sendToServer(packet);
 		    
 		});
 
 CommandEvent.on('PONG', function(packet, raw_packet, me) {
 		    packet.command = 'PING';
 		    packet = packet.build();
-		    me.sendToServer('packet');
+		    me.sendToServer(packet);
 		    
 		});
 
@@ -127,6 +127,8 @@ CommandEvent.on('NICK', function(packet, raw_packet, me){
 		    var previous_nickname = packet.prefix.nickname;
 		    var tabManager = new TabManager();
 		    tabManager.changeNickname(previous_nickname, changed_nickname);
+                    nickname = changed_nickname;
+
 //		    $('.' + previous_nickname).text(changed_nickname);
 //		    $('.' + previous_nickname).addClass(changed_nickname).removeClass(previous_nickname);
 
