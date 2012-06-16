@@ -48,9 +48,11 @@ function appendLog(message, channel, user_id){
     else{
 	user_id = '';	
     }
+    var date = new Data();
+    var curruntTime = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
     message = tags_replace(message);
     $('#log_' + channel).append("<p class='log-overflow-hider'>" + user_id + message + "</p>");
-    $('#time_' + channel).append("<p class='log-overflow-hider'>" + (new Date().toLocaleTimeString()) + "</p>");
+    $('#time_' + channel).append("<p class='log-overflow-hider'>" + (curruntTime) + "</p>");
     scrollDown();
 
 }
