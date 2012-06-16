@@ -16,12 +16,15 @@ body {
 
 }
 .time {
-    display : inline-block;
-    margin-right : 10px;
+   height: 18px;
+   overflow:hidden;
 }
-#log {
 
+.log {
+    height: 18px;
+    overflow: hidden;
 }
+
 footer{
     clear : both;
     margin-top : 10px;

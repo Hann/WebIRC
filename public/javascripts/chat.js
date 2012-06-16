@@ -6,7 +6,7 @@ var Prefix = IRCPacket.Prefix;
 var TabManager = TabManager;
 var commandEvent = CommandEvent;
 var CommandReader = CommandReader;
-var socket = io.connect('http://hann.iptime.org'); // own address
+var socket = io.connect('http://thehjh.com'); // own address
 var pullScrollBar = 20;
 var me = this;
 
@@ -38,8 +38,8 @@ function appendLog(message, channel, user_id){
     else{
 	user_id = '';	
     }
-    $('#log_' + channel).append("<p>" + user_id + message + "</p>");
-    $('#time_' + channel).append("<p>" + (new Date().toLocaleTimeString()) + "</p>");
+    $('#log_' + channel).append("<p class='log'>" + user_id + message + "</p>");
+    $('#time_' + channel).append("<p class='time'>" + (new Date().toLocaleTimeString()) + "</p>");
     scrollDown();
 
 }
