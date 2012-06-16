@@ -48,8 +48,8 @@ function appendLog(message, channel, user_id){
     else{
 	user_id = '';	
     }
-    var date = new Data();
-    var curruntTime = data.getHours() + ":" + data.getMinutes() + ":" + data.getSeconds();
+    var date = new Date();
+    var curruntTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     message = tags_replace(message);
     $('#log_' + channel).append("<p class='log-overflow-hider'>" + user_id + message + "</p>");
     $('#time_' + channel).append("<p class='log-overflow-hider'>" + (curruntTime) + "</p>");
@@ -157,3 +157,4 @@ $('#message').keypress(function (event){
 		}
 	    });
 
+});
