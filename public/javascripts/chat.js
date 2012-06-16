@@ -157,3 +157,4 @@ $('#message').keypress(function (event){
 		}
 	    });
 
+});
