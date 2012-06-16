@@ -16,13 +16,13 @@ body {
 
 }
 .time {
-   height: 18px;
-   overflow:hidden;
+    display : inline-block;
+    margin-right : 10px;
 }
 
-.log {
-    height: 18px;
-    overflow: hidden;
+.log-overflow-hider {
+	height: 18px;
+	overflow: hidden;
 }
 
 footer{
@@ -37,4 +37,3 @@ footer{
 #message{
     width : 90%;
 }
-

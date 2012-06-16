@@ -38,8 +38,8 @@ function appendLog(message, channel, user_id){
     else{
 	user_id = '';	
     }
-    $('#log_' + channel).append("<p class='log'>" + user_id + message + "</p>");
-    $('#time_' + channel).append("<p class='time'>" + (new Date().toLocaleTimeString()) + "</p>");
+    $('#log_' + channel).append("<p class='log-overflow-hider'>" + user_id + message + "</p>");
+    $('#time_' + channel).append("<p class='log-overflow-hider'>" + (new Date().toLocaleTimeString()) + "</p>");
     scrollDown();
 
 }

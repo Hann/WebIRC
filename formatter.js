@@ -32,7 +32,16 @@ var Formatter = (function () {
     }
   };
   
+  var toString = Object.prototype.toString;
   var hasOwnProperty = Object.prototype.hasOwnProperty;
+  var isArgument = function (target) {
+    var typeName = toString.call(target);
+
+    if (toString.call(target) === '[object Arguments]') return true;
+    if (hasOwnProperty.call(target, 'callee')) return true; // for IE under 9.. but this condition is very weak.
+  
+    return false;
+  };
 
   var formatPattern = /%(?:(0)?(\d+))?(?:\.(\d+))?([dfxXs%])/g;
 
@@ -41,8 +50,7 @@ var Formatter = (function () {
     var currentIndex = 0;
 
     // For String.prototype.format
-    // if (Object.prototype.toString.call(arguments[1]) === "[object Arguments]")
-    if (hasOwnProperty.call(arguments[1], 'callee')) // this condition is weaker than the above condition.. but.. because of IE under 9.....:'(
+    if (isArgument(arguments[1]))
     {
       // String.prototype.format -> arguments = [String, arguments[]]
       parameters = Array.prototype.slice.call(arguments[1], 0);
