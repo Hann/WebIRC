@@ -9,6 +9,11 @@ var CommandReader = CommandReader;
 var socket = io.connect('http://thehjh.com'); // own address
 var pullScrollBar = 20;
 var me = this;
+var tagToReplace = {
+    '&' : '&amp;',
+    '<' : '&ltl',
+    '>' : '&gt;'
+};
 
 /*
  *  functions
@@ -30,6 +35,11 @@ function createNotification(message, user) {
     
 }
 
+function tags_replace(message){
+    return message.replace(/[&<>]/g, function(tag){
+	return tagsToReplace[tag] || tag;
+    });
+}
 function appendLog(message, channel, user_id){
     // who typed a message!
     if (typeof user_id != 'undefined'){
@@ -38,6 +48,7 @@ function appendLog(message, channel, user_id){
     else{
 	user_id = '';	
     }
+    message = tags_replace(message);
     $('#log_' + channel).append("<p class='log-overflow-hider'>" + user_id + message + "</p>");
     $('#time_' + channel).append("<p class='log-overflow-hider'>" + (new Date().toLocaleTimeString()) + "</p>");
     scrollDown();
@@ -65,7 +76,6 @@ function refreshChatContainer(){
     $('.chat').height(height-140);
     $('.chat').width(width-160);
 }
-
 
 function scrollDown(){ 
     pullScrollBar += 20;
@@ -144,10 +154,4 @@ $('#message').keypress(function (event){
 		    }
 		}
 	    });
-//click
-$('button').click(function(event){
-		      alert(event.target.id);
-		      console.log('tteeeesttt');
-		  });		      
- });
 
